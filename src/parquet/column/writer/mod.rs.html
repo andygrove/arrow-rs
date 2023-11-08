@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parquet/src/column/writer/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-a23c9d150ad85d8b.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="parquet" data-themes="" data-resource-suffix="" data-rustdoc-version="1.72.0-nightly (839e9a6e1 2023-07-02)" data-channel="nightly" data-search-js="search-f6292fe389d70017.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ><script src="../../../../static.files/storage-59fd9b8ccb335783.js"></script><script defer src="../../../../static.files/source-script-106908c7a7964ba4.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../parquet/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parquet/src/column/writer/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="parquet" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (7adc89b69 2023-11-07)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2844,6 +2844,40 @@
 <a href="#2844" id="2844">2844</a>
 <a href="#2845" id="2845">2845</a>
 <a href="#2846" id="2846">2846</a>
+<a href="#2847" id="2847">2847</a>
+<a href="#2848" id="2848">2848</a>
+<a href="#2849" id="2849">2849</a>
+<a href="#2850" id="2850">2850</a>
+<a href="#2851" id="2851">2851</a>
+<a href="#2852" id="2852">2852</a>
+<a href="#2853" id="2853">2853</a>
+<a href="#2854" id="2854">2854</a>
+<a href="#2855" id="2855">2855</a>
+<a href="#2856" id="2856">2856</a>
+<a href="#2857" id="2857">2857</a>
+<a href="#2858" id="2858">2858</a>
+<a href="#2859" id="2859">2859</a>
+<a href="#2860" id="2860">2860</a>
+<a href="#2861" id="2861">2861</a>
+<a href="#2862" id="2862">2862</a>
+<a href="#2863" id="2863">2863</a>
+<a href="#2864" id="2864">2864</a>
+<a href="#2865" id="2865">2865</a>
+<a href="#2866" id="2866">2866</a>
+<a href="#2867" id="2867">2867</a>
+<a href="#2868" id="2868">2868</a>
+<a href="#2869" id="2869">2869</a>
+<a href="#2870" id="2870">2870</a>
+<a href="#2871" id="2871">2871</a>
+<a href="#2872" id="2872">2872</a>
+<a href="#2873" id="2873">2873</a>
+<a href="#2874" id="2874">2874</a>
+<a href="#2875" id="2875">2875</a>
+<a href="#2876" id="2876">2876</a>
+<a href="#2877" id="2877">2877</a>
+<a href="#2878" id="2878">2878</a>
+<a href="#2879" id="2879">2879</a>
+<a href="#2880" id="2880">2880</a>
 </pre></div><pre class="rust"><code><span class="comment">// Licensed to the Apache Software Foundation (ASF) under one
 // or more contributor license agreements.  See the NOTICE file
 // distributed with this work for additional information
@@ -2863,16 +2897,16 @@
 
 </span><span class="doccomment">//! Contains column writer API.
 
-</span><span class="kw">use </span><span class="kw">crate</span>::bloom_filter::Sbbf;
+</span><span class="kw">use </span>bytes::Bytes;
+
+<span class="kw">use </span><span class="kw">crate</span>::bloom_filter::Sbbf;
 <span class="kw">use </span><span class="kw">crate</span>::format::{ColumnIndex, OffsetIndex};
 <span class="kw">use </span>std::collections::{BTreeSet, VecDeque};
 <span class="kw">use </span>std::str;
 
 <span class="kw">use </span><span class="kw">crate</span>::basic::{Compression, ConvertedType, Encoding, LogicalType, PageType, Type};
 <span class="kw">use </span><span class="kw">crate</span>::column::page::{CompressedPage, Page, PageWriteSpec, PageWriter};
-<span class="kw">use </span><span class="kw">crate</span>::column::writer::encoder::{
-    ColumnValueEncoder, ColumnValueEncoderImpl, ColumnValues,
-};
+<span class="kw">use </span><span class="kw">crate</span>::column::writer::encoder::{ColumnValueEncoder, ColumnValueEncoderImpl, ColumnValues};
 <span class="kw">use </span><span class="kw">crate</span>::compression::{create_codec, Codec, CodecOptionsBuilder};
 <span class="kw">use </span><span class="kw">crate</span>::data_type::private::ParquetValueType;
 <span class="kw">use </span><span class="kw">crate</span>::data_type::<span class="kw-2">*</span>;
@@ -2886,7 +2920,6 @@
     properties::{WriterProperties, WriterPropertiesPtr, WriterVersion},
 };
 <span class="kw">use </span><span class="kw">crate</span>::schema::types::{ColumnDescPtr, ColumnDescriptor};
-<span class="kw">use </span><span class="kw">crate</span>::util::memory::ByteBufferPtr;
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>encoder;
 
@@ -2942,41 +2975,27 @@
     page_writer: Box&lt;<span class="kw">dyn </span>PageWriter + <span class="lifetime">&#39;a</span>&gt;,
 ) -&gt; ColumnWriter&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="kw">match </span>descr.physical_type() {
-        Type::BOOLEAN =&gt; ColumnWriter::BoolColumnWriter(ColumnWriterImpl::new(
-            descr,
-            props,
-            page_writer,
-        )),
-        Type::INT32 =&gt; ColumnWriter::Int32ColumnWriter(ColumnWriterImpl::new(
-            descr,
-            props,
-            page_writer,
-        )),
-        Type::INT64 =&gt; ColumnWriter::Int64ColumnWriter(ColumnWriterImpl::new(
-            descr,
-            props,
-            page_writer,
-        )),
-        Type::INT96 =&gt; ColumnWriter::Int96ColumnWriter(ColumnWriterImpl::new(
-            descr,
-            props,
-            page_writer,
-        )),
-        Type::FLOAT =&gt; ColumnWriter::FloatColumnWriter(ColumnWriterImpl::new(
-            descr,
-            props,
-            page_writer,
-        )),
-        Type::DOUBLE =&gt; ColumnWriter::DoubleColumnWriter(ColumnWriterImpl::new(
-            descr,
-            props,
-            page_writer,
-        )),
-        Type::BYTE_ARRAY =&gt; ColumnWriter::ByteArrayColumnWriter(ColumnWriterImpl::new(
-            descr,
-            props,
-            page_writer,
-        )),
+        Type::BOOLEAN =&gt; {
+            ColumnWriter::BoolColumnWriter(ColumnWriterImpl::new(descr, props, page_writer))
+        }
+        Type::INT32 =&gt; {
+            ColumnWriter::Int32ColumnWriter(ColumnWriterImpl::new(descr, props, page_writer))
+        }
+        Type::INT64 =&gt; {
+            ColumnWriter::Int64ColumnWriter(ColumnWriterImpl::new(descr, props, page_writer))
+        }
+        Type::INT96 =&gt; {
+            ColumnWriter::Int96ColumnWriter(ColumnWriterImpl::new(descr, props, page_writer))
+        }
+        Type::FLOAT =&gt; {
+            ColumnWriter::FloatColumnWriter(ColumnWriterImpl::new(descr, props, page_writer))
+        }
+        Type::DOUBLE =&gt; {
+            ColumnWriter::DoubleColumnWriter(ColumnWriterImpl::new(descr, props, page_writer))
+        }
+        Type::BYTE_ARRAY =&gt; {
+            ColumnWriter::ByteArrayColumnWriter(ColumnWriterImpl::new(descr, props, page_writer))
+        }
         Type::FIXED_LEN_BYTE_ARRAY =&gt; ColumnWriter::FixedLenByteArrayColumnWriter(
             ColumnWriterImpl::new(descr, props, page_writer),
         ),
@@ -2987,9 +3006,7 @@
 /// non-generic type to a generic column writer type `ColumnWriterImpl`.
 ///
 /// Panics if actual enum value for `col_writer` does not match the type `T`.
-</span><span class="kw">pub fn </span>get_typed_column_writer&lt;T: DataType&gt;(
-    col_writer: ColumnWriter,
-) -&gt; ColumnWriterImpl&lt;T&gt; {
+</span><span class="kw">pub fn </span>get_typed_column_writer&lt;T: DataType&gt;(col_writer: ColumnWriter) -&gt; ColumnWriterImpl&lt;T&gt; {
     T::get_column_writer(col_writer).unwrap_or_else(|| {
         <span class="macro">panic!</span>(
             <span class="string">&quot;Failed to convert column writer into a typed column writer for `{}` type&quot;</span>,
@@ -3187,33 +3204,16 @@
         </span><span class="kw">if </span><span class="self">self</span>.statistics_enabled == EnabledStatistics::Chunk {
             <span class="kw">match </span>(min, max) {
                 (<span class="prelude-val">Some</span>(min), <span class="prelude-val">Some</span>(max)) =&gt; {
-                    update_min(
-                        <span class="kw-2">&amp;</span><span class="self">self</span>.descr,
-                        min,
-                        <span class="kw-2">&amp;mut </span><span class="self">self</span>.column_metrics.min_column_value,
-                    );
-                    update_max(
-                        <span class="kw-2">&amp;</span><span class="self">self</span>.descr,
-                        max,
-                        <span class="kw-2">&amp;mut </span><span class="self">self</span>.column_metrics.max_column_value,
-                    );
+                    update_min(<span class="kw-2">&amp;</span><span class="self">self</span>.descr, min, <span class="kw-2">&amp;mut </span><span class="self">self</span>.column_metrics.min_column_value);
+                    update_max(<span class="kw-2">&amp;</span><span class="self">self</span>.descr, max, <span class="kw-2">&amp;mut </span><span class="self">self</span>.column_metrics.max_column_value);
                 }
                 (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="kw">_</span>)) | (<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="prelude-val">None</span>) =&gt; {
                     <span class="macro">panic!</span>(<span class="string">&quot;min/max should be both set or both None&quot;</span>)
                 }
                 (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; {
-                    <span class="kw">if let </span><span class="prelude-val">Some</span>((min, max)) = <span class="self">self</span>.encoder.min_max(values, value_indices)
-                    {
-                        update_min(
-                            <span class="kw-2">&amp;</span><span class="self">self</span>.descr,
-                            <span class="kw-2">&amp;</span>min,
-                            <span class="kw-2">&amp;mut </span><span class="self">self</span>.column_metrics.min_column_value,
-                        );
-                        update_max(
-                            <span class="kw-2">&amp;</span><span class="self">self</span>.descr,
-                            <span class="kw-2">&amp;</span>max,
-                            <span class="kw-2">&amp;mut </span><span class="self">self</span>.column_metrics.max_column_value,
-                        );
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>((min, max)) = <span class="self">self</span>.encoder.min_max(values, value_indices) {
+                        update_min(<span class="kw-2">&amp;</span><span class="self">self</span>.descr, <span class="kw-2">&amp;</span>min, <span class="kw-2">&amp;mut </span><span class="self">self</span>.column_metrics.min_column_value);
+                        update_max(<span class="kw-2">&amp;</span><span class="self">self</span>.descr, <span class="kw-2">&amp;</span>max, <span class="kw-2">&amp;mut </span><span class="self">self</span>.column_metrics.max_column_value);
                     }
                 }
             };
@@ -3346,14 +3346,11 @@
         <span class="kw">let </span>metadata = <span class="self">self</span>.write_column_metadata()<span class="question-mark">?</span>;
         <span class="self">self</span>.page_writer.close()<span class="question-mark">?</span>;
 
-        <span class="kw">let </span>(column_index, offset_index) = <span class="kw">if </span><span class="self">self</span>.column_index_builder.valid() {
-            <span class="comment">// build the column and offset index
-            </span><span class="kw">let </span>column_index = <span class="self">self</span>.column_index_builder.build_to_thrift();
-            <span class="kw">let </span>offset_index = <span class="self">self</span>.offset_index_builder.build_to_thrift();
-            (<span class="prelude-val">Some</span>(column_index), <span class="prelude-val">Some</span>(offset_index))
-        } <span class="kw">else </span>{
-            (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
-        };
+        <span class="kw">let </span>column_index = <span class="self">self
+            </span>.column_index_builder
+            .valid()
+            .then(|| <span class="self">self</span>.column_index_builder.build_to_thrift());
+        <span class="kw">let </span>offset_index = <span class="prelude-val">Some</span>(<span class="self">self</span>.offset_index_builder.build_to_thrift());
 
         <span class="prelude-val">Ok</span>(ColumnCloseResult {
             bytes_written: <span class="self">self</span>.column_metrics.total_bytes_written,
@@ -3475,10 +3472,8 @@
             <span class="kw">return </span><span class="bool-val">false</span>;
         }
 
-        <span class="self">self</span>.page_metrics.num_buffered_rows <span class="kw">as </span>usize
-            &gt;= <span class="self">self</span>.props.data_page_row_count_limit()
-            || <span class="self">self</span>.encoder.estimated_data_page_size()
-                &gt;= <span class="self">self</span>.props.data_page_size_limit()
+        <span class="self">self</span>.page_metrics.num_buffered_rows <span class="kw">as </span>usize &gt;= <span class="self">self</span>.props.data_page_row_count_limit()
+            || <span class="self">self</span>.encoder.estimated_data_page_size() &gt;= <span class="self">self</span>.props.data_page_size_limit()
     }
 
     <span class="doccomment">/// Performs dictionary fallback.
@@ -3496,8 +3491,8 @@
     <span class="doccomment">/// Update the column index and offset index when adding the data page
     </span><span class="kw">fn </span>update_column_offset_index(<span class="kw-2">&amp;mut </span><span class="self">self</span>, page_statistics: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Statistics&gt;) {
         <span class="comment">// update the column index
-        </span><span class="kw">let </span>null_page = (<span class="self">self</span>.page_metrics.num_buffered_rows <span class="kw">as </span>u64)
-            == <span class="self">self</span>.page_metrics.num_page_nulls;
+        </span><span class="kw">let </span>null_page =
+            (<span class="self">self</span>.page_metrics.num_buffered_rows <span class="kw">as </span>u64) == <span class="self">self</span>.page_metrics.num_page_nulls;
         <span class="comment">// a page contains only null values,
         // and writers have to set the corresponding entries in min_values and max_values to byte[0]
         </span><span class="kw">if </span>null_page &amp;&amp; <span class="self">self</span>.column_index_builder.valid() {
@@ -3617,7 +3612,7 @@
                     );
                 }
 
-                buffer.extend_from_slice(values_data.buf.data());
+                buffer.extend_from_slice(<span class="kw-2">&amp;</span>values_data.buf);
                 <span class="kw">let </span>uncompressed_size = buffer.len();
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref mut </span>cmpr) = <span class="self">self</span>.compressor {
@@ -3627,7 +3622,7 @@
                 }
 
                 <span class="kw">let </span>data_page = Page::DataPage {
-                    buf: ByteBufferPtr::new(buffer),
+                    buf: buffer.into(),
                     num_values: <span class="self">self</span>.page_metrics.num_buffered_values,
                     encoding: values_data.encoding,
                     def_level_encoding: Encoding::RLE,
@@ -3643,15 +3638,13 @@
                 <span class="kw">let </span><span class="kw-2">mut </span>buffer = <span class="macro">vec!</span>[];
 
                 <span class="kw">if </span>max_rep_level &gt; <span class="number">0 </span>{
-                    <span class="kw">let </span>levels =
-                        <span class="self">self</span>.encode_levels_v2(<span class="kw-2">&amp;</span><span class="self">self</span>.rep_levels_sink[..], max_rep_level);
+                    <span class="kw">let </span>levels = <span class="self">self</span>.encode_levels_v2(<span class="kw-2">&amp;</span><span class="self">self</span>.rep_levels_sink[..], max_rep_level);
                     rep_levels_byte_len = levels.len();
                     buffer.extend_from_slice(<span class="kw-2">&amp;</span>levels[..]);
                 }
 
                 <span class="kw">if </span>max_def_level &gt; <span class="number">0 </span>{
-                    <span class="kw">let </span>levels =
-                        <span class="self">self</span>.encode_levels_v2(<span class="kw-2">&amp;</span><span class="self">self</span>.def_levels_sink[..], max_def_level);
+                    <span class="kw">let </span>levels = <span class="self">self</span>.encode_levels_v2(<span class="kw-2">&amp;</span><span class="self">self</span>.def_levels_sink[..], max_def_level);
                     def_levels_byte_len = levels.len();
                     buffer.extend_from_slice(<span class="kw-2">&amp;</span>levels[..]);
                 }
@@ -3662,13 +3655,13 @@
                 <span class="comment">// Data Page v2 compresses values only.
                 </span><span class="kw">match </span><span class="self">self</span>.compressor {
                     <span class="prelude-val">Some</span>(<span class="kw-2">ref mut </span>cmpr) =&gt; {
-                        cmpr.compress(values_data.buf.data(), <span class="kw-2">&amp;mut </span>buffer)<span class="question-mark">?</span>;
+                        cmpr.compress(<span class="kw-2">&amp;</span>values_data.buf, <span class="kw-2">&amp;mut </span>buffer)<span class="question-mark">?</span>;
                     }
-                    <span class="prelude-val">None </span>=&gt; buffer.extend_from_slice(values_data.buf.data()),
+                    <span class="prelude-val">None </span>=&gt; buffer.extend_from_slice(<span class="kw-2">&amp;</span>values_data.buf),
                 }
 
                 <span class="kw">let </span>data_page = Page::DataPageV2 {
-                    buf: ByteBufferPtr::new(buffer),
+                    buf: buffer.into(),
                     num_values: <span class="self">self</span>.page_metrics.num_buffered_values,
                     encoding: values_data.encoding,
                     num_nulls: <span class="self">self</span>.page_metrics.num_page_nulls <span class="kw">as </span>u32,
@@ -3691,8 +3684,7 @@
         }
 
         <span class="comment">// Update total number of rows.
-        </span><span class="self">self</span>.column_metrics.total_rows_written +=
-            <span class="self">self</span>.page_metrics.num_buffered_rows <span class="kw">as </span>u64;
+        </span><span class="self">self</span>.column_metrics.total_rows_written += <span class="self">self</span>.page_metrics.num_buffered_rows <span class="kw">as </span>u64;
 
         <span class="comment">// Reset state.
         </span><span class="self">self</span>.rep_levels_sink.clear();
@@ -3723,8 +3715,7 @@
         <span class="kw">let </span>total_compressed_size = <span class="self">self</span>.column_metrics.total_compressed_size <span class="kw">as </span>i64;
         <span class="kw">let </span>total_uncompressed_size = <span class="self">self</span>.column_metrics.total_uncompressed_size <span class="kw">as </span>i64;
         <span class="kw">let </span>num_values = <span class="self">self</span>.column_metrics.total_num_values <span class="kw">as </span>i64;
-        <span class="kw">let </span>dict_page_offset =
-            <span class="self">self</span>.column_metrics.dictionary_page_offset.map(|v| v <span class="kw">as </span>i64);
+        <span class="kw">let </span>dict_page_offset = <span class="self">self</span>.column_metrics.dictionary_page_offset.map(|v| v <span class="kw">as </span>i64);
         <span class="comment">// If data page offset is not set, then no pages have been written
         </span><span class="kw">let </span>data_page_offset = <span class="self">self</span>.column_metrics.data_page_offset.unwrap_or(<span class="number">0</span>) <span class="kw">as </span>i64;
 
@@ -3769,12 +3760,7 @@
 
     <span class="doccomment">/// Encodes definition or repetition levels for Data Page v1.
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>encode_levels_v1(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        encoding: Encoding,
-        levels: <span class="kw-2">&amp;</span>[i16],
-        max_level: i16,
-    ) -&gt; Vec&lt;u8&gt; {
+    </span><span class="kw">fn </span>encode_levels_v1(<span class="kw-2">&amp;</span><span class="self">self</span>, encoding: Encoding, levels: <span class="kw-2">&amp;</span>[i16], max_level: i16) -&gt; Vec&lt;u8&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>encoder = LevelEncoder::v1(encoding, max_level, levels.len());
         encoder.put(levels);
         encoder.consume()
@@ -3796,10 +3782,8 @@
         <span class="kw">let </span>page_spec = <span class="self">self</span>.page_writer.write_page(page)<span class="question-mark">?</span>;
         <span class="comment">// update offset index
         // compressed_size = header_size + compressed_data_size
-        </span><span class="self">self</span>.offset_index_builder.append_offset_and_size(
-            page_spec.offset <span class="kw">as </span>i64,
-            page_spec.compressed_size <span class="kw">as </span>i32,
-        );
+        </span><span class="self">self</span>.offset_index_builder
+            .append_offset_and_size(page_spec.offset <span class="kw">as </span>i64, page_spec.compressed_size <span class="kw">as </span>i32);
         <span class="self">self</span>.update_metrics_for_page(page_spec);
         <span class="prelude-val">Ok</span>(())
     }
@@ -3817,8 +3801,8 @@
 
             <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref mut </span>cmpr) = <span class="self">self</span>.compressor {
                 <span class="kw">let </span><span class="kw-2">mut </span>output_buf = Vec::with_capacity(uncompressed_size);
-                cmpr.compress(page.buf.data(), <span class="kw-2">&amp;mut </span>output_buf)<span class="question-mark">?</span>;
-                page.buf = ByteBufferPtr::new(output_buf);
+                cmpr.compress(<span class="kw-2">&amp;</span>page.buf, <span class="kw-2">&amp;mut </span>output_buf)<span class="question-mark">?</span>;
+                page.buf = Bytes::from(output_buf);
             }
 
             <span class="kw">let </span>dict_page = Page::DictionaryPage {
@@ -3863,19 +3847,11 @@
     }
 }
 
-<span class="kw">fn </span>update_min&lt;T: ParquetValueType&gt;(
-    descr: <span class="kw-2">&amp;</span>ColumnDescriptor,
-    val: <span class="kw-2">&amp;</span>T,
-    min: <span class="kw-2">&amp;mut </span><span class="prelude-ty">Option</span>&lt;T&gt;,
-) {
+<span class="kw">fn </span>update_min&lt;T: ParquetValueType&gt;(descr: <span class="kw-2">&amp;</span>ColumnDescriptor, val: <span class="kw-2">&amp;</span>T, min: <span class="kw-2">&amp;mut </span><span class="prelude-ty">Option</span>&lt;T&gt;) {
     update_stat::&lt;T, <span class="kw">_</span>&gt;(val, min, |cur| compare_greater(descr, cur, val))
 }
 
-<span class="kw">fn </span>update_max&lt;T: ParquetValueType&gt;(
-    descr: <span class="kw-2">&amp;</span>ColumnDescriptor,
-    val: <span class="kw-2">&amp;</span>T,
-    max: <span class="kw-2">&amp;mut </span><span class="prelude-ty">Option</span>&lt;T&gt;,
-) {
+<span class="kw">fn </span>update_max&lt;T: ParquetValueType&gt;(descr: <span class="kw-2">&amp;</span>ColumnDescriptor, val: <span class="kw-2">&amp;</span>T, max: <span class="kw-2">&amp;mut </span><span class="prelude-ty">Option</span>&lt;T&gt;) {
     update_stat::&lt;T, <span class="kw">_</span>&gt;(val, max, |cur| compare_greater(descr, val, cur))
 }
 
@@ -3966,9 +3942,7 @@
         (Type::INT32, WriterVersion::PARQUET_2_0) =&gt; Encoding::DELTA_BINARY_PACKED,
         (Type::INT64, WriterVersion::PARQUET_2_0) =&gt; Encoding::DELTA_BINARY_PACKED,
         (Type::BYTE_ARRAY, WriterVersion::PARQUET_2_0) =&gt; Encoding::DELTA_BYTE_ARRAY,
-        (Type::FIXED_LEN_BYTE_ARRAY, WriterVersion::PARQUET_2_0) =&gt; {
-            Encoding::DELTA_BYTE_ARRAY
-        }
+        (Type::FIXED_LEN_BYTE_ARRAY, WriterVersion::PARQUET_2_0) =&gt; Encoding::DELTA_BYTE_ARRAY,
         <span class="kw">_ </span>=&gt; Encoding::PLAIN,
     }
 }
@@ -4001,9 +3975,7 @@
     // for equal length bytes arrays that have different first bytes.
     // The equality requirement is necessary for sign extension cases.
     // 0xFF10 should be equal to 0x10 (due to big endian sign extension).
-    </span><span class="kw">if </span>(<span class="number">0x80 </span>&amp; first_a) != (<span class="number">0x80 </span>&amp; first_b)
-        || (a_length == b_length &amp;&amp; first_a != first_b)
-    {
+    </span><span class="kw">if </span>(<span class="number">0x80 </span>&amp; first_a) != (<span class="number">0x80 </span>&amp; first_b) || (a_length == b_length &amp;&amp; first_a != first_b) {
         <span class="kw">return </span>(first_a <span class="kw">as </span>i8) &gt; (first_b <span class="kw">as </span>i8);
     }
 
@@ -4076,9 +4048,7 @@
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
-    <span class="kw">use crate</span>::{
-        file::properties::DEFAULT_COLUMN_INDEX_TRUNCATE_LENGTH, format::BoundaryOrder,
-    };
+    <span class="kw">use crate</span>::{file::properties::DEFAULT_COLUMN_INDEX_TRUNCATE_LENGTH, format::BoundaryOrder};
     <span class="kw">use </span>bytes::Bytes;
     <span class="kw">use </span>rand::distributions::uniform::SampleUniform;
     <span class="kw">use </span>std::sync::Arc;
@@ -4506,26 +4476,25 @@
     </span><span class="kw">fn </span>test_column_writer_check_byte_array_min_max() {
         <span class="kw">let </span>page_writer = get_test_page_writer();
         <span class="kw">let </span>props = Default::default();
-        <span class="kw">let </span><span class="kw-2">mut </span>writer =
-            get_test_decimals_column_writer::&lt;ByteArrayType&gt;(page_writer, <span class="number">0</span>, <span class="number">0</span>, props);
+        <span class="kw">let </span><span class="kw-2">mut </span>writer = get_test_decimals_column_writer::&lt;ByteArrayType&gt;(page_writer, <span class="number">0</span>, <span class="number">0</span>, props);
         writer
             .write_batch(
                 <span class="kw-2">&amp;</span>[
                     ByteArray::from(<span class="macro">vec!</span>[
-                        <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">179u8</span>,
-                        <span class="number">172u8</span>, <span class="number">19u8</span>, <span class="number">35u8</span>, <span class="number">231u8</span>, <span class="number">90u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>,
+                        <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">179u8</span>, <span class="number">172u8</span>, <span class="number">19u8</span>,
+                        <span class="number">35u8</span>, <span class="number">231u8</span>, <span class="number">90u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>,
                     ]),
                     ByteArray::from(<span class="macro">vec!</span>[
-                        <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">228u8</span>,
-                        <span class="number">62u8</span>, <span class="number">146u8</span>, <span class="number">152u8</span>, <span class="number">177u8</span>, <span class="number">56u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>,
+                        <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">228u8</span>, <span class="number">62u8</span>, <span class="number">146u8</span>,
+                        <span class="number">152u8</span>, <span class="number">177u8</span>, <span class="number">56u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>,
                     ]),
                     ByteArray::from(<span class="macro">vec!</span>[
-                        <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>,
-                        <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>,
+                        <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>,
+                        <span class="number">0u8</span>,
                     ]),
                     ByteArray::from(<span class="macro">vec!</span>[
-                        <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">41u8</span>, <span class="number">162u8</span>, <span class="number">36u8</span>, <span class="number">26u8</span>,
-                        <span class="number">246u8</span>, <span class="number">44u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>,
+                        <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">41u8</span>, <span class="number">162u8</span>, <span class="number">36u8</span>, <span class="number">26u8</span>, <span class="number">246u8</span>,
+                        <span class="number">44u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>,
                     ]),
                 ],
                 <span class="prelude-val">None</span>,
@@ -4539,15 +4508,15 @@
                 <span class="macro">assert_eq!</span>(
                     stats.min(),
                     <span class="kw-2">&amp;</span>ByteArray::from(<span class="macro">vec!</span>[
-                        <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">179u8</span>,
-                        <span class="number">172u8</span>, <span class="number">19u8</span>, <span class="number">35u8</span>, <span class="number">231u8</span>, <span class="number">90u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>,
+                        <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">179u8</span>, <span class="number">172u8</span>, <span class="number">19u8</span>,
+                        <span class="number">35u8</span>, <span class="number">231u8</span>, <span class="number">90u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>,
                     ])
                 );
                 <span class="macro">assert_eq!</span>(
                     stats.max(),
                     <span class="kw-2">&amp;</span>ByteArray::from(<span class="macro">vec!</span>[
-                        <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">41u8</span>, <span class="number">162u8</span>, <span class="number">36u8</span>, <span class="number">26u8</span>,
-                        <span class="number">246u8</span>, <span class="number">44u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>,
+                        <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>, <span class="number">41u8</span>, <span class="number">162u8</span>, <span class="number">36u8</span>, <span class="number">26u8</span>, <span class="number">246u8</span>,
+                        <span class="number">44u8</span>, <span class="number">0u8</span>, <span class="number">0u8</span>,
                     ])
                 );
             } <span class="kw">else </span>{
@@ -4562,9 +4531,12 @@
     </span><span class="kw">fn </span>test_column_writer_uint32_converted_type_min_max() {
         <span class="kw">let </span>page_writer = get_test_page_writer();
         <span class="kw">let </span>props = Default::default();
-        <span class="kw">let </span><span class="kw-2">mut </span>writer = get_test_unsigned_int_given_as_converted_column_writer::&lt;
-            Int32Type,
-        &gt;(page_writer, <span class="number">0</span>, <span class="number">0</span>, props);
+        <span class="kw">let </span><span class="kw-2">mut </span>writer = get_test_unsigned_int_given_as_converted_column_writer::&lt;Int32Type&gt;(
+            page_writer,
+            <span class="number">0</span>,
+            <span class="number">0</span>,
+            props,
+        );
         writer.write_batch(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>], <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         <span class="kw">let </span>metadata = writer.close().unwrap().metadata;
         <span class="kw">if let </span><span class="prelude-val">Some</span>(stats) = metadata.statistics() {
@@ -4639,14 +4611,7 @@
 
         writer.write_batch(<span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         writer
-            .write_batch_with_statistics(
-                <span class="kw-2">&amp;</span>[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>],
-                <span class="prelude-val">None</span>,
-                <span class="prelude-val">None</span>,
-                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">5</span>),
-                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">7</span>),
-                <span class="prelude-val">Some</span>(<span class="number">3</span>),
-            )
+            .write_batch_with_statistics(<span class="kw-2">&amp;</span>[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>], <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">5</span>), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">7</span>), <span class="prelude-val">Some</span>(<span class="number">3</span>))
             .unwrap();
 
         <span class="kw">let </span>r = writer.close().unwrap();
@@ -4957,10 +4922,10 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_byte_array_statistics() {
-        <span class="kw">let </span>input = <span class="macro">vec!</span>[<span class="string">&quot;aawaa&quot;</span>, <span class="string">&quot;zz&quot;</span>, <span class="string">&quot;aaw&quot;</span>, <span class="string">&quot;m&quot;</span>, <span class="string">&quot;qrs&quot;</span>]
+        <span class="kw">let </span>input = [<span class="string">&quot;aawaa&quot;</span>, <span class="string">&quot;zz&quot;</span>, <span class="string">&quot;aaw&quot;</span>, <span class="string">&quot;m&quot;</span>, <span class="string">&quot;qrs&quot;</span>]
             .iter()
             .map(|<span class="kw-2">&amp;</span>s| s.into())
-            .collect::&lt;Vec&lt;ByteArray&gt;&gt;();
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
         <span class="kw">let </span>stats = statistics_roundtrip::&lt;ByteArrayType&gt;(<span class="kw-2">&amp;</span>input);
         <span class="macro">assert!</span>(!stats.is_min_max_backwards_compatible());
@@ -4975,13 +4940,10 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_fixed_len_byte_array_statistics() {
-        <span class="kw">let </span>input = <span class="macro">vec!</span>[<span class="string">&quot;aawaa&quot;</span>, <span class="string">&quot;zz   &quot;</span>, <span class="string">&quot;aaw  &quot;</span>, <span class="string">&quot;m    &quot;</span>, <span class="string">&quot;qrs  &quot;</span>]
+        <span class="kw">let </span>input = [<span class="string">&quot;aawaa&quot;</span>, <span class="string">&quot;zz   &quot;</span>, <span class="string">&quot;aaw  &quot;</span>, <span class="string">&quot;m    &quot;</span>, <span class="string">&quot;qrs  &quot;</span>]
             .iter()
-            .map(|<span class="kw-2">&amp;</span>s| {
-                <span class="kw">let </span>b: ByteArray = s.into();
-                b.into()
-            })
-            .collect::&lt;Vec&lt;FixedLenByteArray&gt;&gt;();
+            .map(|<span class="kw-2">&amp;</span>s| ByteArray::from(s).into())
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
         <span class="kw">let </span>stats = statistics_roundtrip::&lt;FixedLenByteArrayType&gt;(<span class="kw-2">&amp;</span>input);
         <span class="macro">assert!</span>(stats.has_min_max_set());
@@ -5031,6 +4993,64 @@
     }
 
     <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_float_statistics_zero_only() {
+        <span class="kw">let </span>stats = statistics_roundtrip::&lt;FloatType&gt;(<span class="kw-2">&amp;</span>[<span class="number">0.0</span>]);
+        <span class="macro">assert!</span>(stats.has_min_max_set());
+        <span class="macro">assert!</span>(stats.is_min_max_backwards_compatible());
+        <span class="kw">if let </span>Statistics::Float(stats) = stats {
+            <span class="macro">assert_eq!</span>(stats.min(), <span class="kw-2">&amp;</span>-<span class="number">0.0</span>);
+            <span class="macro">assert!</span>(stats.min().is_sign_negative());
+            <span class="macro">assert_eq!</span>(stats.max(), <span class="kw-2">&amp;</span><span class="number">0.0</span>);
+            <span class="macro">assert!</span>(stats.max().is_sign_positive());
+        } <span class="kw">else </span>{
+            <span class="macro">panic!</span>(<span class="string">&quot;expecting Statistics::Float&quot;</span>);
+        }
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_float_statistics_neg_zero_only() {
+        <span class="kw">let </span>stats = statistics_roundtrip::&lt;FloatType&gt;(<span class="kw-2">&amp;</span>[-<span class="number">0.0</span>]);
+        <span class="macro">assert!</span>(stats.has_min_max_set());
+        <span class="macro">assert!</span>(stats.is_min_max_backwards_compatible());
+        <span class="kw">if let </span>Statistics::Float(stats) = stats {
+            <span class="macro">assert_eq!</span>(stats.min(), <span class="kw-2">&amp;</span>-<span class="number">0.0</span>);
+            <span class="macro">assert!</span>(stats.min().is_sign_negative());
+            <span class="macro">assert_eq!</span>(stats.max(), <span class="kw-2">&amp;</span><span class="number">0.0</span>);
+            <span class="macro">assert!</span>(stats.max().is_sign_positive());
+        } <span class="kw">else </span>{
+            <span class="macro">panic!</span>(<span class="string">&quot;expecting Statistics::Float&quot;</span>);
+        }
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_float_statistics_zero_min() {
+        <span class="kw">let </span>stats = statistics_roundtrip::&lt;FloatType&gt;(<span class="kw-2">&amp;</span>[<span class="number">0.0</span>, <span class="number">1.0</span>, f32::NAN, <span class="number">2.0</span>]);
+        <span class="macro">assert!</span>(stats.has_min_max_set());
+        <span class="macro">assert!</span>(stats.is_min_max_backwards_compatible());
+        <span class="kw">if let </span>Statistics::Float(stats) = stats {
+            <span class="macro">assert_eq!</span>(stats.min(), <span class="kw-2">&amp;</span>-<span class="number">0.0</span>);
+            <span class="macro">assert!</span>(stats.min().is_sign_negative());
+            <span class="macro">assert_eq!</span>(stats.max(), <span class="kw-2">&amp;</span><span class="number">2.0</span>);
+        } <span class="kw">else </span>{
+            <span class="macro">panic!</span>(<span class="string">&quot;expecting Statistics::Float&quot;</span>);
+        }
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_float_statistics_neg_zero_max() {
+        <span class="kw">let </span>stats = statistics_roundtrip::&lt;FloatType&gt;(<span class="kw-2">&amp;</span>[-<span class="number">0.0</span>, -<span class="number">1.0</span>, f32::NAN, -<span class="number">2.0</span>]);
+        <span class="macro">assert!</span>(stats.has_min_max_set());
+        <span class="macro">assert!</span>(stats.is_min_max_backwards_compatible());
+        <span class="kw">if let </span>Statistics::Float(stats) = stats {
+            <span class="macro">assert_eq!</span>(stats.min(), <span class="kw-2">&amp;</span>-<span class="number">2.0</span>);
+            <span class="macro">assert_eq!</span>(stats.max(), <span class="kw-2">&amp;</span><span class="number">0.0</span>);
+            <span class="macro">assert!</span>(stats.max().is_sign_positive());
+        } <span class="kw">else </span>{
+            <span class="macro">panic!</span>(<span class="string">&quot;expecting Statistics::Float&quot;</span>);
+        }
+    }
+
+    <span class="attr">#[test]
     </span><span class="kw">fn </span>test_double_statistics_nan_middle() {
         <span class="kw">let </span>stats = statistics_roundtrip::&lt;DoubleType&gt;(<span class="kw-2">&amp;</span>[<span class="number">1.0</span>, f64::NAN, <span class="number">2.0</span>]);
         <span class="macro">assert!</span>(stats.has_min_max_set());
@@ -5039,7 +5059,7 @@
             <span class="macro">assert_eq!</span>(stats.min(), <span class="kw-2">&amp;</span><span class="number">1.0</span>);
             <span class="macro">assert_eq!</span>(stats.max(), <span class="kw-2">&amp;</span><span class="number">2.0</span>);
         } <span class="kw">else </span>{
-            <span class="macro">panic!</span>(<span class="string">&quot;expecting Statistics::Float&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;expecting Statistics::Double&quot;</span>);
         }
     }
 
@@ -5052,7 +5072,7 @@
             <span class="macro">assert_eq!</span>(stats.min(), <span class="kw-2">&amp;</span><span class="number">1.0</span>);
             <span class="macro">assert_eq!</span>(stats.max(), <span class="kw-2">&amp;</span><span class="number">2.0</span>);
         } <span class="kw">else </span>{
-            <span class="macro">panic!</span>(<span class="string">&quot;expecting Statistics::Float&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;expecting Statistics::Double&quot;</span>);
         }
     }
 
@@ -5062,6 +5082,64 @@
         <span class="macro">assert!</span>(!stats.has_min_max_set());
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(stats, Statistics::Double(<span class="kw">_</span>)));
         <span class="macro">assert!</span>(stats.is_min_max_backwards_compatible());
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_double_statistics_zero_only() {
+        <span class="kw">let </span>stats = statistics_roundtrip::&lt;DoubleType&gt;(<span class="kw-2">&amp;</span>[<span class="number">0.0</span>]);
+        <span class="macro">assert!</span>(stats.has_min_max_set());
+        <span class="macro">assert!</span>(stats.is_min_max_backwards_compatible());
+        <span class="kw">if let </span>Statistics::Double(stats) = stats {
+            <span class="macro">assert_eq!</span>(stats.min(), <span class="kw-2">&amp;</span>-<span class="number">0.0</span>);
+            <span class="macro">assert!</span>(stats.min().is_sign_negative());
+            <span class="macro">assert_eq!</span>(stats.max(), <span class="kw-2">&amp;</span><span class="number">0.0</span>);
+            <span class="macro">assert!</span>(stats.max().is_sign_positive());
+        } <span class="kw">else </span>{
+            <span class="macro">panic!</span>(<span class="string">&quot;expecting Statistics::Double&quot;</span>);
+        }
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_double_statistics_neg_zero_only() {
+        <span class="kw">let </span>stats = statistics_roundtrip::&lt;DoubleType&gt;(<span class="kw-2">&amp;</span>[-<span class="number">0.0</span>]);
+        <span class="macro">assert!</span>(stats.has_min_max_set());
+        <span class="macro">assert!</span>(stats.is_min_max_backwards_compatible());
+        <span class="kw">if let </span>Statistics::Double(stats) = stats {
+            <span class="macro">assert_eq!</span>(stats.min(), <span class="kw-2">&amp;</span>-<span class="number">0.0</span>);
+            <span class="macro">assert!</span>(stats.min().is_sign_negative());
+            <span class="macro">assert_eq!</span>(stats.max(), <span class="kw-2">&amp;</span><span class="number">0.0</span>);
+            <span class="macro">assert!</span>(stats.max().is_sign_positive());
+        } <span class="kw">else </span>{
+            <span class="macro">panic!</span>(<span class="string">&quot;expecting Statistics::Double&quot;</span>);
+        }
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_double_statistics_zero_min() {
+        <span class="kw">let </span>stats = statistics_roundtrip::&lt;DoubleType&gt;(<span class="kw-2">&amp;</span>[<span class="number">0.0</span>, <span class="number">1.0</span>, f64::NAN, <span class="number">2.0</span>]);
+        <span class="macro">assert!</span>(stats.has_min_max_set());
+        <span class="macro">assert!</span>(stats.is_min_max_backwards_compatible());
+        <span class="kw">if let </span>Statistics::Double(stats) = stats {
+            <span class="macro">assert_eq!</span>(stats.min(), <span class="kw-2">&amp;</span>-<span class="number">0.0</span>);
+            <span class="macro">assert!</span>(stats.min().is_sign_negative());
+            <span class="macro">assert_eq!</span>(stats.max(), <span class="kw-2">&amp;</span><span class="number">2.0</span>);
+        } <span class="kw">else </span>{
+            <span class="macro">panic!</span>(<span class="string">&quot;expecting Statistics::Double&quot;</span>);
+        }
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_double_statistics_neg_zero_max() {
+        <span class="kw">let </span>stats = statistics_roundtrip::&lt;DoubleType&gt;(<span class="kw-2">&amp;</span>[-<span class="number">0.0</span>, -<span class="number">1.0</span>, f64::NAN, -<span class="number">2.0</span>]);
+        <span class="macro">assert!</span>(stats.has_min_max_set());
+        <span class="macro">assert!</span>(stats.is_min_max_backwards_compatible());
+        <span class="kw">if let </span>Statistics::Double(stats) = stats {
+            <span class="macro">assert_eq!</span>(stats.min(), <span class="kw-2">&amp;</span>-<span class="number">2.0</span>);
+            <span class="macro">assert_eq!</span>(stats.max(), <span class="kw-2">&amp;</span><span class="number">0.0</span>);
+            <span class="macro">assert!</span>(stats.max().is_sign_positive());
+        } <span class="kw">else </span>{
+            <span class="macro">panic!</span>(<span class="string">&quot;expecting Statistics::Double&quot;</span>);
+        }
     }
 
     <span class="attr">#[test]
@@ -5149,15 +5227,14 @@
         // and check the offset index and column index
         </span><span class="kw">let </span>page_writer = get_test_page_writer();
         <span class="kw">let </span>props = Default::default();
-        <span class="kw">let </span><span class="kw-2">mut </span>writer =
-            get_test_column_writer::&lt;FixedLenByteArrayType&gt;(page_writer, <span class="number">0</span>, <span class="number">0</span>, props);
+        <span class="kw">let </span><span class="kw-2">mut </span>writer = get_test_column_writer::&lt;FixedLenByteArrayType&gt;(page_writer, <span class="number">0</span>, <span class="number">0</span>, props);
 
         <span class="kw">let </span><span class="kw-2">mut </span>data = <span class="macro">vec!</span>[FixedLenByteArray::default(); <span class="number">3</span>];
         <span class="comment">// This is the expected min value - &quot;aaa...&quot;
-        </span>data[<span class="number">0</span>].set_data(ByteBufferPtr::new(<span class="macro">vec!</span>[<span class="number">97_u8</span>; <span class="number">200</span>]));
+        </span>data[<span class="number">0</span>].set_data(Bytes::from(<span class="macro">vec!</span>[<span class="number">97_u8</span>; <span class="number">200</span>]));
         <span class="comment">// This is the expected max value - &quot;ZZZ...&quot;
-        </span>data[<span class="number">1</span>].set_data(ByteBufferPtr::new(<span class="macro">vec!</span>[<span class="number">112_u8</span>; <span class="number">200</span>]));
-        data[<span class="number">2</span>].set_data(ByteBufferPtr::new(<span class="macro">vec!</span>[<span class="number">98_u8</span>; <span class="number">200</span>]));
+        </span>data[<span class="number">1</span>].set_data(Bytes::from(<span class="macro">vec!</span>[<span class="number">112_u8</span>; <span class="number">200</span>]));
+        data[<span class="number">2</span>].set_data(Bytes::from(<span class="macro">vec!</span>[<span class="number">98_u8</span>; <span class="number">200</span>]));
 
         writer.write_batch(<span class="kw-2">&amp;</span>data, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
 
@@ -5218,17 +5295,13 @@
         </span><span class="kw">let </span>page_writer = get_test_page_writer();
 
         <span class="comment">// Truncate values at 1 byte
-        </span><span class="kw">let </span>builder =
-            WriterProperties::builder().set_column_index_truncate_length(<span class="prelude-val">Some</span>(<span class="number">1</span>));
+        </span><span class="kw">let </span>builder = WriterProperties::builder().set_column_index_truncate_length(<span class="prelude-val">Some</span>(<span class="number">1</span>));
         <span class="kw">let </span>props = Arc::new(builder.build());
-        <span class="kw">let </span><span class="kw-2">mut </span>writer =
-            get_test_column_writer::&lt;FixedLenByteArrayType&gt;(page_writer, <span class="number">0</span>, <span class="number">0</span>, props);
+        <span class="kw">let </span><span class="kw-2">mut </span>writer = get_test_column_writer::&lt;FixedLenByteArrayType&gt;(page_writer, <span class="number">0</span>, <span class="number">0</span>, props);
 
         <span class="kw">let </span><span class="kw-2">mut </span>data = <span class="macro">vec!</span>[FixedLenByteArray::default(); <span class="number">1</span>];
         <span class="comment">// This is the expected min value
-        </span>data[<span class="number">0</span>].set_data(ByteBufferPtr::new(
-            String::from(<span class="string">&quot;Blart Versenwald III&quot;</span>).into_bytes(),
-        ));
+        </span>data[<span class="number">0</span>].set_data(Bytes::from(String::from(<span class="string">&quot;Blart Versenwald III&quot;</span>)));
 
         writer.write_batch(<span class="kw-2">&amp;</span>data, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
 
@@ -5299,9 +5372,9 @@
 
         <span class="comment">// Also show that BinaryArray level comparison works here
         </span><span class="kw">let </span><span class="kw-2">mut </span>greater = ByteArray::new();
-        greater.set_data(ByteBufferPtr::new(v));
+        greater.set_data(Bytes::from(v));
         <span class="kw">let </span><span class="kw-2">mut </span>original = ByteArray::new();
-        original.set_data(ByteBufferPtr::new(<span class="string">&quot;hello&quot;</span>.as_bytes().to_vec()));
+        original.set_data(Bytes::from(<span class="string">&quot;hello&quot;</span>.as_bytes().to_vec()));
         <span class="macro">assert!</span>(greater &gt; original);
 
         <span class="comment">// UTF8 string
@@ -5429,12 +5502,8 @@
             max_batch_size = max_batch_size.max(levels.len());
         }
 
-        <span class="kw">let </span><span class="kw-2">mut </span>writer = get_test_column_writer::&lt;T&gt;(
-            page_writer,
-            max_def_level,
-            max_rep_level,
-            Arc::new(props),
-        );
+        <span class="kw">let </span><span class="kw-2">mut </span>writer =
+            get_test_column_writer::&lt;T&gt;(page_writer, max_def_level, max_rep_level, Arc::new(props));
 
         <span class="kw">let </span>values_written = writer.write_batch(values, def_levels, rep_levels).unwrap();
         <span class="macro">assert_eq!</span>(values_written, values.len());
@@ -5455,8 +5524,7 @@
             )
             .unwrap(),
         );
-        <span class="kw">let </span>reader =
-            get_test_column_reader::&lt;T&gt;(page_reader, max_def_level, max_rep_level);
+        <span class="kw">let </span>reader = get_test_column_reader::&lt;T&gt;(page_reader, max_def_level, max_rep_level);
 
         <span class="kw">let </span><span class="kw-2">mut </span>actual_values = <span class="macro">vec!</span>[T::T::default(); max_batch_size];
         <span class="kw">let </span><span class="kw-2">mut </span>actual_def_levels = def_levels.map(|<span class="kw">_</span>| <span class="macro">vec!</span>[<span class="number">0i16</span>; max_batch_size]);
