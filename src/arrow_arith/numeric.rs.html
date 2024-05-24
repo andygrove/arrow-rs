@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `arrow-arith/src/numeric.rs`."><title>numeric.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-452d19225583af2a.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="arrow_arith" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0-nightly (2df6406b8 2023-12-26)" data-channel="nightly" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
-    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `arrow-arith/src/numeric.rs`."><title>numeric.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="arrow_arith" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (867900499 2024-05-23)" data-channel="nightly" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1516,9 +1515,6 @@
 <a href="#1515" id="1515">1515</a>
 <a href="#1516" id="1516">1516</a>
 <a href="#1517" id="1517">1517</a>
-<a href="#1518" id="1518">1518</a>
-<a href="#1519" id="1519">1519</a>
-<a href="#1520" id="1520">1520</a>
 </pre></div><pre class="rust"><code><span class="comment">// Licensed to the Apache Software Foundation (ASF) under one
 // or more contributor license agreements.  See the NOTICE file
 // distributed with this work for additional information
@@ -1546,7 +1542,7 @@
 <span class="kw">use </span>arrow_array::timezone::Tz;
 <span class="kw">use </span>arrow_array::types::<span class="kw-2">*</span>;
 <span class="kw">use </span>arrow_array::<span class="kw-2">*</span>;
-<span class="kw">use </span>arrow_buffer::ArrowNativeType;
+<span class="kw">use </span>arrow_buffer::{ArrowNativeType, IntervalDayTime, IntervalMonthDayNano};
 <span class="kw">use </span>arrow_schema::{ArrowError, DataType, IntervalUnit, TimeUnit};
 
 <span class="kw">use </span><span class="kw">crate</span>::arity::{binary, try_binary};
@@ -1597,7 +1593,7 @@
     arithmetic_op(Op::Rem, lhs, rhs)
 }
 
-<span class="macro">macro_rules! </span>neg_checked {
+<span class="macro">macro_rules!</span> neg_checked {
     (<span class="macro-nonterminal">$t</span>:ty, <span class="macro-nonterminal">$a</span>:ident) =&gt; {{
         <span class="kw">let </span>array = <span class="macro-nonterminal">$a
             </span>.as_primitive::&lt;<span class="macro-nonterminal">$t</span>&gt;()
@@ -1606,7 +1602,7 @@
     }};
 }
 
-<span class="macro">macro_rules! </span>neg_wrapping {
+<span class="macro">macro_rules!</span> neg_wrapping {
     (<span class="macro-nonterminal">$t</span>:ty, <span class="macro-nonterminal">$a</span>:ident) =&gt; {{
         <span class="kw">let </span>array = <span class="macro-nonterminal">$a</span>.as_primitive::&lt;<span class="macro-nonterminal">$t</span>&gt;().unary::&lt;<span class="kw">_</span>, <span class="macro-nonterminal">$t</span>&gt;(|x| x.neg_wrapping());
         <span class="prelude-val">Ok</span>(Arc::new(array))
@@ -1682,7 +1678,7 @@
 
 <span class="doccomment">/// Negates each element of  `array`, wrapping on overflow for [`DataType::is_integer`]
 </span><span class="kw">pub fn </span>neg_wrapping(array: <span class="kw-2">&amp;</span><span class="kw">dyn </span>Array) -&gt; <span class="prelude-ty">Result</span>&lt;ArrayRef, ArrowError&gt; {
-    <span class="macro">downcast_integer! </span>{
+    <span class="macro">downcast_integer!</span> {
         array.data_type() =&gt; (neg_wrapping, array),
         <span class="kw">_ </span>=&gt; neg(array),
     }
@@ -1727,7 +1723,7 @@
     <span class="kw">use </span>IntervalUnit::<span class="kw-2">*</span>;
     <span class="kw">use </span>TimeUnit::<span class="kw-2">*</span>;
 
-    <span class="macro">macro_rules! </span>integer_helper {
+    <span class="macro">macro_rules!</span> integer_helper {
         (<span class="macro-nonterminal">$t</span>:ty, <span class="macro-nonterminal">$op</span>:ident, <span class="macro-nonterminal">$l</span>:ident, <span class="macro-nonterminal">$l_scalar</span>:ident, <span class="macro-nonterminal">$r</span>:ident, <span class="macro-nonterminal">$r_scalar</span>:ident) =&gt; {
             integer_op::&lt;<span class="macro-nonterminal">$t</span>&gt;(<span class="macro-nonterminal">$op</span>, <span class="macro-nonterminal">$l</span>, <span class="macro-nonterminal">$l_scalar</span>, <span class="macro-nonterminal">$r</span>, <span class="macro-nonterminal">$r_scalar</span>)
         };
@@ -1735,7 +1731,7 @@
 
     <span class="kw">let </span>(l, l_scalar) = lhs.get();
     <span class="kw">let </span>(r, r_scalar) = rhs.get();
-    <span class="macro">downcast_integer! </span>{
+    <span class="macro">downcast_integer!</span> {
         l.data_type(), r.data_type() =&gt; (integer_helper, op, l, l_scalar, r, r_scalar),
         (Float16, Float16) =&gt; float_op::&lt;Float16Type&gt;(op, l, l_scalar, r, r_scalar),
         (Float32, Float32) =&gt; float_op::&lt;Float32Type&gt;(op, l, l_scalar, r, r_scalar),
@@ -1767,7 +1763,7 @@
 }
 
 <span class="doccomment">/// Perform an infallible binary operation on potentially scalar inputs
-</span><span class="macro">macro_rules! </span>op {
+</span><span class="macro">macro_rules!</span> op {
     (<span class="macro-nonterminal">$l</span>:ident, <span class="macro-nonterminal">$l_s</span>:expr, <span class="macro-nonterminal">$r</span>:ident, <span class="macro-nonterminal">$r_s</span>:expr, <span class="macro-nonterminal">$op</span>:expr) =&gt; {
         <span class="kw">match </span>(<span class="macro-nonterminal">$l_s</span>, <span class="macro-nonterminal">$r_s</span>) {
             (<span class="bool-val">true</span>, <span class="bool-val">true</span>) | (<span class="bool-val">false</span>, <span class="bool-val">false</span>) =&gt; binary(<span class="macro-nonterminal">$l</span>, <span class="macro-nonterminal">$r</span>, |<span class="macro-nonterminal">$l</span>, <span class="macro-nonterminal">$r</span>| <span class="macro-nonterminal">$op</span>)<span class="question-mark">?</span>,
@@ -1784,7 +1780,7 @@
 }
 
 <span class="doccomment">/// Same as `op` but with a type hint for the returned array
-</span><span class="macro">macro_rules! </span>op_ref {
+</span><span class="macro">macro_rules!</span> op_ref {
     (<span class="macro-nonterminal">$t</span>:ty, <span class="macro-nonterminal">$l</span>:ident, <span class="macro-nonterminal">$l_s</span>:expr, <span class="macro-nonterminal">$r</span>:ident, <span class="macro-nonterminal">$r_s</span>:expr, <span class="macro-nonterminal">$op</span>:expr) =&gt; {{
         <span class="kw">let </span>array: PrimitiveArray&lt;<span class="macro-nonterminal">$t</span>&gt; = <span class="macro">op!</span>(<span class="macro-nonterminal">$l</span>, <span class="macro-nonterminal">$l_s</span>, <span class="macro-nonterminal">$r</span>, <span class="macro-nonterminal">$r_s</span>, <span class="macro-nonterminal">$op</span>);
         Arc::new(array)
@@ -1792,7 +1788,7 @@
 }
 
 <span class="doccomment">/// Perform a fallible binary operation on potentially scalar inputs
-</span><span class="macro">macro_rules! </span>try_op {
+</span><span class="macro">macro_rules!</span> try_op {
     (<span class="macro-nonterminal">$l</span>:ident, <span class="macro-nonterminal">$l_s</span>:expr, <span class="macro-nonterminal">$r</span>:ident, <span class="macro-nonterminal">$r_s</span>:expr, <span class="macro-nonterminal">$op</span>:expr) =&gt; {
         <span class="kw">match </span>(<span class="macro-nonterminal">$l_s</span>, <span class="macro-nonterminal">$r_s</span>) {
             (<span class="bool-val">true</span>, <span class="bool-val">true</span>) | (<span class="bool-val">false</span>, <span class="bool-val">false</span>) =&gt; try_binary(<span class="macro-nonterminal">$l</span>, <span class="macro-nonterminal">$r</span>, |<span class="macro-nonterminal">$l</span>, <span class="macro-nonterminal">$r</span>| <span class="macro-nonterminal">$op</span>)<span class="question-mark">?</span>,
@@ -1809,7 +1805,7 @@
 }
 
 <span class="doccomment">/// Same as `try_op` but with a type hint for the returned array
-</span><span class="macro">macro_rules! </span>try_op_ref {
+</span><span class="macro">macro_rules!</span> try_op_ref {
     (<span class="macro-nonterminal">$t</span>:ty, <span class="macro-nonterminal">$l</span>:ident, <span class="macro-nonterminal">$l_s</span>:expr, <span class="macro-nonterminal">$r</span>:ident, <span class="macro-nonterminal">$r_s</span>:expr, <span class="macro-nonterminal">$op</span>:expr) =&gt; {{
         <span class="kw">let </span>array: PrimitiveArray&lt;<span class="macro-nonterminal">$t</span>&gt; = <span class="macro">try_op!</span>(<span class="macro-nonterminal">$l</span>, <span class="macro-nonterminal">$l_s</span>, <span class="macro-nonterminal">$r</span>, <span class="macro-nonterminal">$r_s</span>, <span class="macro-nonterminal">$op</span>);
         Arc::new(array)
@@ -1864,15 +1860,15 @@
     <span class="kw">type </span>Duration: ArrowPrimitiveType&lt;Native = i64&gt;;
 
     <span class="kw">fn </span>add_year_month(timestamp: i64, delta: i32, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt;;
-    <span class="kw">fn </span>add_day_time(timestamp: i64, delta: i64, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt;;
-    <span class="kw">fn </span>add_month_day_nano(timestamp: i64, delta: i128, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt;;
+    <span class="kw">fn </span>add_day_time(timestamp: i64, delta: IntervalDayTime, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt;;
+    <span class="kw">fn </span>add_month_day_nano(timestamp: i64, delta: IntervalMonthDayNano, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt;;
 
     <span class="kw">fn </span>sub_year_month(timestamp: i64, delta: i32, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt;;
-    <span class="kw">fn </span>sub_day_time(timestamp: i64, delta: i64, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt;;
-    <span class="kw">fn </span>sub_month_day_nano(timestamp: i64, delta: i128, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt;;
+    <span class="kw">fn </span>sub_day_time(timestamp: i64, delta: IntervalDayTime, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt;;
+    <span class="kw">fn </span>sub_month_day_nano(timestamp: i64, delta: IntervalMonthDayNano, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt;;
 }
 
-<span class="macro">macro_rules! </span>timestamp {
+<span class="macro">macro_rules!</span> timestamp {
     (<span class="macro-nonterminal">$t</span>:ty, <span class="macro-nonterminal">$d</span>:ty) =&gt; {
         <span class="kw">impl </span>TimestampOp <span class="kw">for </span><span class="macro-nonterminal">$t </span>{
             <span class="kw">type </span>Duration = <span class="macro-nonterminal">$d</span>;
@@ -1881,11 +1877,11 @@
                 <span class="self">Self</span>::add_year_months(left, right, tz)
             }
 
-            <span class="kw">fn </span>add_day_time(left: i64, right: i64, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
+            <span class="kw">fn </span>add_day_time(left: i64, right: IntervalDayTime, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
                 <span class="self">Self</span>::add_day_time(left, right, tz)
             }
 
-            <span class="kw">fn </span>add_month_day_nano(left: i64, right: i128, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
+            <span class="kw">fn </span>add_month_day_nano(left: i64, right: IntervalMonthDayNano, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
                 <span class="self">Self</span>::add_month_day_nano(left, right, tz)
             }
 
@@ -1893,11 +1889,11 @@
                 <span class="self">Self</span>::subtract_year_months(left, right, tz)
             }
 
-            <span class="kw">fn </span>sub_day_time(left: i64, right: i64, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
+            <span class="kw">fn </span>sub_day_time(left: i64, right: IntervalDayTime, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
                 <span class="self">Self</span>::subtract_day_time(left, right, tz)
             }
 
-            <span class="kw">fn </span>sub_month_day_nano(left: i64, right: i128, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
+            <span class="kw">fn </span>sub_month_day_nano(left: i64, right: IntervalMonthDayNano, tz: Tz) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
                 <span class="self">Self</span>::subtract_month_day_nano(left, right, tz)
             }
         }
@@ -2027,26 +2023,26 @@
 /// Note: these should be fallible (#4456)
 </span><span class="kw">trait </span>DateOp: ArrowTemporalType {
     <span class="kw">fn </span>add_year_month(timestamp: <span class="self">Self</span>::Native, delta: i32) -&gt; <span class="self">Self</span>::Native;
-    <span class="kw">fn </span>add_day_time(timestamp: <span class="self">Self</span>::Native, delta: i64) -&gt; <span class="self">Self</span>::Native;
-    <span class="kw">fn </span>add_month_day_nano(timestamp: <span class="self">Self</span>::Native, delta: i128) -&gt; <span class="self">Self</span>::Native;
+    <span class="kw">fn </span>add_day_time(timestamp: <span class="self">Self</span>::Native, delta: IntervalDayTime) -&gt; <span class="self">Self</span>::Native;
+    <span class="kw">fn </span>add_month_day_nano(timestamp: <span class="self">Self</span>::Native, delta: IntervalMonthDayNano) -&gt; <span class="self">Self</span>::Native;
 
     <span class="kw">fn </span>sub_year_month(timestamp: <span class="self">Self</span>::Native, delta: i32) -&gt; <span class="self">Self</span>::Native;
-    <span class="kw">fn </span>sub_day_time(timestamp: <span class="self">Self</span>::Native, delta: i64) -&gt; <span class="self">Self</span>::Native;
-    <span class="kw">fn </span>sub_month_day_nano(timestamp: <span class="self">Self</span>::Native, delta: i128) -&gt; <span class="self">Self</span>::Native;
+    <span class="kw">fn </span>sub_day_time(timestamp: <span class="self">Self</span>::Native, delta: IntervalDayTime) -&gt; <span class="self">Self</span>::Native;
+    <span class="kw">fn </span>sub_month_day_nano(timestamp: <span class="self">Self</span>::Native, delta: IntervalMonthDayNano) -&gt; <span class="self">Self</span>::Native;
 }
 
-<span class="macro">macro_rules! </span>date {
+<span class="macro">macro_rules!</span> date {
     (<span class="macro-nonterminal">$t</span>:ty) =&gt; {
         <span class="kw">impl </span>DateOp <span class="kw">for </span><span class="macro-nonterminal">$t </span>{
             <span class="kw">fn </span>add_year_month(left: <span class="self">Self</span>::Native, right: i32) -&gt; <span class="self">Self</span>::Native {
                 <span class="self">Self</span>::add_year_months(left, right)
             }
 
-            <span class="kw">fn </span>add_day_time(left: <span class="self">Self</span>::Native, right: i64) -&gt; <span class="self">Self</span>::Native {
+            <span class="kw">fn </span>add_day_time(left: <span class="self">Self</span>::Native, right: IntervalDayTime) -&gt; <span class="self">Self</span>::Native {
                 <span class="self">Self</span>::add_day_time(left, right)
             }
 
-            <span class="kw">fn </span>add_month_day_nano(left: <span class="self">Self</span>::Native, right: i128) -&gt; <span class="self">Self</span>::Native {
+            <span class="kw">fn </span>add_month_day_nano(left: <span class="self">Self</span>::Native, right: IntervalMonthDayNano) -&gt; <span class="self">Self</span>::Native {
                 <span class="self">Self</span>::add_month_day_nano(left, right)
             }
 
@@ -2054,11 +2050,11 @@
                 <span class="self">Self</span>::subtract_year_months(left, right)
             }
 
-            <span class="kw">fn </span>sub_day_time(left: <span class="self">Self</span>::Native, right: i64) -&gt; <span class="self">Self</span>::Native {
+            <span class="kw">fn </span>sub_day_time(left: <span class="self">Self</span>::Native, right: IntervalDayTime) -&gt; <span class="self">Self</span>::Native {
                 <span class="self">Self</span>::subtract_day_time(left, right)
             }
 
-            <span class="kw">fn </span>sub_month_day_nano(left: <span class="self">Self</span>::Native, right: i128) -&gt; <span class="self">Self</span>::Native {
+            <span class="kw">fn </span>sub_month_day_nano(left: <span class="self">Self</span>::Native, right: IntervalMonthDayNano) -&gt; <span class="self">Self</span>::Native {
                 <span class="self">Self</span>::subtract_month_day_nano(left, right)
             }
         }
@@ -2867,13 +2863,10 @@
                 IntervalMonthDayNanoType::make_value(<span class="number">35</span>, -<span class="number">19</span>, <span class="number">41899000000000000</span>)
             ])
         );
-        <span class="kw">let </span>a = IntervalMonthDayNanoArray::from(<span class="macro">vec!</span>[i64::MAX <span class="kw">as </span>i128]);
-        <span class="kw">let </span>b = IntervalMonthDayNanoArray::from(<span class="macro">vec!</span>[<span class="number">1</span>]);
+        <span class="kw">let </span>a = IntervalMonthDayNanoArray::from(<span class="macro">vec!</span>[IntervalMonthDayNano::MAX]);
+        <span class="kw">let </span>b = IntervalMonthDayNanoArray::from(<span class="macro">vec!</span>[IntervalMonthDayNano::ONE]);
         <span class="kw">let </span>err = add(<span class="kw-2">&amp;</span>a, <span class="kw-2">&amp;</span>b).unwrap_err().to_string();
-        <span class="macro">assert_eq!</span>(
-            err,
-            <span class="string">"Compute error: Overflow happened on: 9223372036854775807 + 1"
-        </span>);
+        <span class="macro">assert_eq!</span>(err, <span class="string">"Compute error: Overflow happened on: 2147483647 + 1"</span>);
     }
 
     <span class="kw">fn </span>test_duration_impl&lt;T: ArrowPrimitiveType&lt;Native = i64&gt;&gt;() {

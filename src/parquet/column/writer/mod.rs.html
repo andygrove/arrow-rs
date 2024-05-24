@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parquet/src/column/writer/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-452d19225583af2a.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="parquet" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0-nightly (2df6406b8 2023-12-26)" data-channel="nightly" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
-    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parquet/src/column/writer/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="parquet" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (867900499 2024-05-23)" data-channel="nightly" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3549,23 +3548,6 @@
 <a href="#3548" id="3548">3548</a>
 <a href="#3549" id="3549">3549</a>
 <a href="#3550" id="3550">3550</a>
-<a href="#3551" id="3551">3551</a>
-<a href="#3552" id="3552">3552</a>
-<a href="#3553" id="3553">3553</a>
-<a href="#3554" id="3554">3554</a>
-<a href="#3555" id="3555">3555</a>
-<a href="#3556" id="3556">3556</a>
-<a href="#3557" id="3557">3557</a>
-<a href="#3558" id="3558">3558</a>
-<a href="#3559" id="3559">3559</a>
-<a href="#3560" id="3560">3560</a>
-<a href="#3561" id="3561">3561</a>
-<a href="#3562" id="3562">3562</a>
-<a href="#3563" id="3563">3563</a>
-<a href="#3564" id="3564">3564</a>
-<a href="#3565" id="3565">3565</a>
-<a href="#3566" id="3566">3566</a>
-<a href="#3567" id="3567">3567</a>
 </pre></div><pre class="rust"><code><span class="comment">// Licensed to the Apache Software Foundation (ASF) under one
 // or more contributor license agreements.  See the NOTICE file
 // distributed with this work for additional information
@@ -3612,7 +3594,7 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>encoder;
 
-<span class="macro">macro_rules! </span>downcast_writer {
+<span class="macro">macro_rules!</span> downcast_writer {
     (<span class="macro-nonterminal">$e</span>:expr, <span class="macro-nonterminal">$i</span>:ident, <span class="macro-nonterminal">$b</span>:expr) =&gt; {
         <span class="kw">match </span><span class="macro-nonterminal">$e </span>{
             <span class="self">Self</span>::BoolColumnWriter(<span class="macro-nonterminal">$i</span>) =&gt; <span class="macro-nonterminal">$b</span>,
@@ -4740,14 +4722,7 @@
 // https://github.com/apache/parquet-mr/blob/master/parquet-column/src/main/java/org/apache/parquet/column/values/factory/DefaultV1ValuesWriterFactory.java
 // https://github.com/apache/parquet-mr/blob/master/parquet-column/src/main/java/org/apache/parquet/column/values/factory/DefaultV2ValuesWriterFactory.java
 
-</span><span class="doccomment">/// Trait to define default encoding for types, including whether or not the type
-/// supports dictionary encoding.
-</span><span class="kw">trait </span>EncodingWriteSupport {
-    <span class="doccomment">/// Returns true if dictionary is supported for column writer, false otherwise.
-    </span><span class="kw">fn </span>has_dictionary_support(props: <span class="kw-2">&amp;</span>WriterProperties) -&gt; bool;
-}
-
-<span class="doccomment">/// Returns encoding for a column when no other encoding is provided in writer properties.
+</span><span class="doccomment">/// Returns encoding for a column when no other encoding is provided in writer properties.
 </span><span class="kw">fn </span>fallback_encoding(kind: Type, props: <span class="kw-2">&amp;</span>WriterProperties) -&gt; Encoding {
     <span class="kw">match </span>(kind, props.writer_version()) {
         (Type::BOOLEAN, WriterVersion::PARQUET_2_0) =&gt; Encoding::RLE,
@@ -4860,9 +4835,7 @@
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
-    <span class="kw">use crate</span>::{file::properties::DEFAULT_COLUMN_INDEX_TRUNCATE_LENGTH, format::BoundaryOrder};
-    <span class="kw">use </span>bytes::Bytes;
-    <span class="kw">use </span>half::f16;
+    <span class="kw">use </span><span class="kw">crate</span>::file::properties::DEFAULT_COLUMN_INDEX_TRUNCATE_LENGTH;
     <span class="kw">use </span>rand::distributions::uniform::SampleUniform;
     <span class="kw">use </span>std::sync::Arc;
 
@@ -4872,11 +4845,9 @@
     };
     <span class="kw">use </span><span class="kw">crate</span>::file::writer::TrackedWrite;
     <span class="kw">use </span><span class="kw">crate</span>::file::{
-        properties::{ReaderProperties, WriterProperties},
-        reader::SerializedPageReader,
-        writer::SerializedPageWriter,
+        properties::ReaderProperties, reader::SerializedPageReader, writer::SerializedPageWriter,
     };
-    <span class="kw">use </span><span class="kw">crate</span>::schema::types::{ColumnDescriptor, ColumnPath, Type <span class="kw">as </span>SchemaType};
+    <span class="kw">use </span><span class="kw">crate</span>::schema::types::{ColumnPath, Type <span class="kw">as </span>SchemaType};
     <span class="kw">use </span><span class="kw">crate</span>::util::test_common::rand_gen::random_numbers_range;
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -6152,14 +6123,8 @@
         }
 
         <span class="comment">// page location
-        </span><span class="macro">assert_eq!</span>(
-            <span class="number">0</span>,
-            offset_index.page_locations.get(<span class="number">0</span>).unwrap().first_row_index
-        );
-        <span class="macro">assert_eq!</span>(
-            <span class="number">4</span>,
-            offset_index.page_locations.get(<span class="number">1</span>).unwrap().first_row_index
-        );
+        </span><span class="macro">assert_eq!</span>(<span class="number">0</span>, offset_index.page_locations[<span class="number">0</span>].first_row_index);
+        <span class="macro">assert_eq!</span>(<span class="number">4</span>, offset_index.page_locations[<span class="number">1</span>].first_row_index);
     }
 
     <span class="doccomment">/// Verify min/max value truncation in the column index works as expected
@@ -6200,8 +6165,8 @@
             <span class="macro">assert_eq!</span>(stats.null_count(), <span class="number">0</span>);
             <span class="macro">assert_eq!</span>(stats.distinct_count(), <span class="prelude-val">None</span>);
             <span class="kw">if let </span>Statistics::FixedLenByteArray(stats) = stats {
-                <span class="kw">let </span>column_index_min_value = column_index.min_values.get(<span class="number">0</span>).unwrap();
-                <span class="kw">let </span>column_index_max_value = column_index.max_values.get(<span class="number">0</span>).unwrap();
+                <span class="kw">let </span>column_index_min_value = <span class="kw-2">&amp;</span>column_index.min_values[<span class="number">0</span>];
+                <span class="kw">let </span>column_index_max_value = <span class="kw-2">&amp;</span>column_index.max_values[<span class="number">0</span>];
 
                 <span class="comment">// Column index stats are truncated, while the column chunk's aren't.
                 </span><span class="macro">assert_ne!</span>(stats.min_bytes(), column_index_min_value.as_slice());
@@ -6267,8 +6232,8 @@
             <span class="macro">assert_eq!</span>(stats.null_count(), <span class="number">0</span>);
             <span class="macro">assert_eq!</span>(stats.distinct_count(), <span class="prelude-val">None</span>);
             <span class="kw">if let </span>Statistics::FixedLenByteArray(_stats) = stats {
-                <span class="kw">let </span>column_index_min_value = column_index.min_values.get(<span class="number">0</span>).unwrap();
-                <span class="kw">let </span>column_index_max_value = column_index.max_values.get(<span class="number">0</span>).unwrap();
+                <span class="kw">let </span>column_index_min_value = <span class="kw-2">&amp;</span>column_index.min_values[<span class="number">0</span>];
+                <span class="kw">let </span>column_index_max_value = <span class="kw-2">&amp;</span>column_index.max_values[<span class="number">0</span>];
 
                 <span class="macro">assert_eq!</span>(column_index_min_value.len(), <span class="number">1</span>);
                 <span class="macro">assert_eq!</span>(column_index_max_value.len(), <span class="number">1</span>);

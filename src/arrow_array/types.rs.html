@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `arrow-array/src/types.rs`."><title>types.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-452d19225583af2a.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="arrow_array" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0-nightly (2df6406b8 2023-12-26)" data-channel="nightly" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
-    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `arrow-array/src/types.rs`."><title>types.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="arrow_array" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (867900499 2024-05-23)" data-channel="nightly" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1633,6 +1632,39 @@
 <a href="#1632" id="1632">1632</a>
 <a href="#1633" id="1633">1633</a>
 <a href="#1634" id="1634">1634</a>
+<a href="#1635" id="1635">1635</a>
+<a href="#1636" id="1636">1636</a>
+<a href="#1637" id="1637">1637</a>
+<a href="#1638" id="1638">1638</a>
+<a href="#1639" id="1639">1639</a>
+<a href="#1640" id="1640">1640</a>
+<a href="#1641" id="1641">1641</a>
+<a href="#1642" id="1642">1642</a>
+<a href="#1643" id="1643">1643</a>
+<a href="#1644" id="1644">1644</a>
+<a href="#1645" id="1645">1645</a>
+<a href="#1646" id="1646">1646</a>
+<a href="#1647" id="1647">1647</a>
+<a href="#1648" id="1648">1648</a>
+<a href="#1649" id="1649">1649</a>
+<a href="#1650" id="1650">1650</a>
+<a href="#1651" id="1651">1651</a>
+<a href="#1652" id="1652">1652</a>
+<a href="#1653" id="1653">1653</a>
+<a href="#1654" id="1654">1654</a>
+<a href="#1655" id="1655">1655</a>
+<a href="#1656" id="1656">1656</a>
+<a href="#1657" id="1657">1657</a>
+<a href="#1658" id="1658">1658</a>
+<a href="#1659" id="1659">1659</a>
+<a href="#1660" id="1660">1660</a>
+<a href="#1661" id="1661">1661</a>
+<a href="#1662" id="1662">1662</a>
+<a href="#1663" id="1663">1663</a>
+<a href="#1664" id="1664">1664</a>
+<a href="#1665" id="1665">1665</a>
+<a href="#1666" id="1666">1666</a>
+<a href="#1667" id="1667">1667</a>
 </pre></div><pre class="rust"><code><span class="comment">// Licensed to the Apache Software Foundation (ASF) under one
 // or more contributor license agreements.  See the NOTICE file
 // distributed with this work for additional information
@@ -1658,14 +1690,16 @@
 <span class="kw">use </span><span class="kw">crate</span>::temporal_conversions::as_datetime_with_timezone;
 <span class="kw">use </span><span class="kw">crate</span>::timezone::Tz;
 <span class="kw">use crate</span>::{ArrowNativeTypeOp, OffsetSizeTrait};
-<span class="kw">use </span>arrow_buffer::{i256, Buffer, OffsetBuffer};
+<span class="kw">use </span>arrow_buffer::{i256, Buffer, IntervalDayTime, IntervalMonthDayNano, OffsetBuffer};
 <span class="kw">use </span>arrow_data::decimal::{validate_decimal256_precision, validate_decimal_precision};
+<span class="kw">use </span>arrow_data::{validate_binary_view, validate_string_view};
 <span class="kw">use </span>arrow_schema::{
     ArrowError, DataType, IntervalUnit, TimeUnit, DECIMAL128_MAX_PRECISION, DECIMAL128_MAX_SCALE,
     DECIMAL256_MAX_PRECISION, DECIMAL256_MAX_SCALE, DECIMAL_DEFAULT_SCALE,
 };
 <span class="kw">use </span>chrono::{Duration, NaiveDate, NaiveDateTime};
 <span class="kw">use </span>half::f16;
+<span class="kw">use </span>std::fmt::Debug;
 <span class="kw">use </span>std::marker::PhantomData;
 <span class="kw">use </span>std::ops::{Add, Sub};
 
@@ -1692,6 +1726,7 @@
     </span><span class="kw">const </span>DATA_TYPE: DataType;
 
     <span class="doccomment">/// Returns the byte width of this primitive type.
+    </span><span class="attr">#[deprecated(note = <span class="string">"Use ArrowNativeType::get_byte_width"</span>)]
     </span><span class="kw">fn </span>get_byte_width() -&gt; usize {
         std::mem::size_of::&lt;<span class="self">Self</span>::Native&gt;()
     }
@@ -1708,7 +1743,7 @@
     <span class="kw">pub trait </span>PrimitiveTypeSealed {}
 }
 
-<span class="macro">macro_rules! </span>make_type {
+<span class="macro">macro_rules!</span> make_type {
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$native_ty</span>:ty, <span class="macro-nonterminal">$data_ty</span>:expr, <span class="macro-nonterminal">$doc_string</span>: literal) =&gt; {
         <span class="attr">#[derive(Debug)]
         #[doc = <span class="macro-nonterminal">$doc_string</span>]
@@ -1852,7 +1887,7 @@
 </span>);
 <span class="macro">make_type!</span>(
     IntervalDayTimeType,
-    i64,
+    IntervalDayTime,
     DataType::Interval(IntervalUnit::DayTime),
     <span class="string">r#"A “calendar” interval type in days and milliseconds.
 
@@ -1879,7 +1914,7 @@ which can lead to surprising results. Please see the description of ordering on
 </span>);
 <span class="macro">make_type!</span>(
     IntervalMonthDayNanoType,
-    i128,
+    IntervalMonthDayNano,
     DataType::Interval(IntervalUnit::MonthDayNano),
     <span class="string">r#"A “calendar” interval type in months, days, and nanoseconds.
 
@@ -1896,11 +1931,11 @@ Each field is independent (e.g. there is no constraint that the quantity of
 nanoseconds represents less than a day's worth of time).
 
 ```text
-┌──────────────────────────────┬─────────────┬──────────────┐
-│            Nanos             │    Days     │    Months    │
-│          (64 bits)           │ (32 bits)   │  (32 bits)   │
-└──────────────────────────────┴─────────────┴──────────────┘
-  0                            63            95           127 bit offset
+┌───────────────┬─────────────┬─────────────────────────────┐
+│     Months    │     Days    │            Nanos            │
+│   (32 bits)   │  (32 bits)  │          (64 bits)          │
+└───────────────┴─────────────┴─────────────────────────────┘
+  0            32             64                           128 bit offset
 ```
 Please see the [Arrow Spec](https://github.com/apache/arrow/blob/081b4022fe6f659d8765efc82b3f4787c5039e3c/format/Schema.fbs#L409-L415) for more details
 
@@ -2025,31 +2060,34 @@ is larger than the binary representation of 100 days.
     <span class="kw">const </span>UNIT: TimeUnit = TimeUnit::Second;
 
     <span class="kw">fn </span>make_value(naive: NaiveDateTime) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
-        <span class="prelude-val">Some</span>(naive.timestamp())
+        <span class="prelude-val">Some</span>(naive.and_utc().timestamp())
     }
 }
 <span class="kw">impl </span>ArrowTimestampType <span class="kw">for </span>TimestampMillisecondType {
     <span class="kw">const </span>UNIT: TimeUnit = TimeUnit::Millisecond;
 
     <span class="kw">fn </span>make_value(naive: NaiveDateTime) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
-        <span class="kw">let </span>millis = naive.timestamp().checked_mul(<span class="number">1_000</span>)<span class="question-mark">?</span>;
-        millis.checked_add(naive.timestamp_subsec_millis() <span class="kw">as </span>i64)
+        <span class="kw">let </span>utc = naive.and_utc();
+        <span class="kw">let </span>millis = utc.timestamp().checked_mul(<span class="number">1_000</span>)<span class="question-mark">?</span>;
+        millis.checked_add(utc.timestamp_subsec_millis() <span class="kw">as </span>i64)
     }
 }
 <span class="kw">impl </span>ArrowTimestampType <span class="kw">for </span>TimestampMicrosecondType {
     <span class="kw">const </span>UNIT: TimeUnit = TimeUnit::Microsecond;
 
     <span class="kw">fn </span>make_value(naive: NaiveDateTime) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
-        <span class="kw">let </span>micros = naive.timestamp().checked_mul(<span class="number">1_000_000</span>)<span class="question-mark">?</span>;
-        micros.checked_add(naive.timestamp_subsec_micros() <span class="kw">as </span>i64)
+        <span class="kw">let </span>utc = naive.and_utc();
+        <span class="kw">let </span>micros = utc.timestamp().checked_mul(<span class="number">1_000_000</span>)<span class="question-mark">?</span>;
+        micros.checked_add(utc.timestamp_subsec_micros() <span class="kw">as </span>i64)
     }
 }
 <span class="kw">impl </span>ArrowTimestampType <span class="kw">for </span>TimestampNanosecondType {
     <span class="kw">const </span>UNIT: TimeUnit = TimeUnit::Nanosecond;
 
     <span class="kw">fn </span>make_value(naive: NaiveDateTime) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
-        <span class="kw">let </span>nanos = naive.timestamp().checked_mul(<span class="number">1_000_000_000</span>)<span class="question-mark">?</span>;
-        nanos.checked_add(naive.timestamp_subsec_nanos() <span class="kw">as </span>i64)
+        <span class="kw">let </span>utc = naive.and_utc();
+        <span class="kw">let </span>nanos = utc.timestamp().checked_mul(<span class="number">1_000_000_000</span>)<span class="question-mark">?</span>;
+        nanos.checked_add(utc.timestamp_subsec_nanos() <span class="kw">as </span>i64)
     }
 }
 
@@ -2073,7 +2111,7 @@ is larger than the binary representation of 100 days.
     <span class="kw">let </span>(days, ms) = IntervalDayTimeType::to_parts(delta);
     <span class="kw">let </span>res = as_datetime_with_timezone::&lt;T&gt;(timestamp, tz)<span class="question-mark">?</span>;
     <span class="kw">let </span>res = add_days_datetime(res, days)<span class="question-mark">?</span>;
-    <span class="kw">let </span>res = res.checked_add_signed(Duration::milliseconds(ms <span class="kw">as </span>i64))<span class="question-mark">?</span>;
+    <span class="kw">let </span>res = res.checked_add_signed(Duration::try_milliseconds(ms <span class="kw">as </span>i64)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     <span class="kw">let </span>res = res.naive_utc();
     T::make_value(res)
 }
@@ -2112,7 +2150,7 @@ is larger than the binary representation of 100 days.
     <span class="kw">let </span>(days, ms) = IntervalDayTimeType::to_parts(delta);
     <span class="kw">let </span>res = as_datetime_with_timezone::&lt;T&gt;(timestamp, tz)<span class="question-mark">?</span>;
     <span class="kw">let </span>res = sub_days_datetime(res, days)<span class="question-mark">?</span>;
-    <span class="kw">let </span>res = res.checked_sub_signed(Duration::milliseconds(ms <span class="kw">as </span>i64))<span class="question-mark">?</span>;
+    <span class="kw">let </span>res = res.checked_sub_signed(Duration::try_milliseconds(ms <span class="kw">as </span>i64)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     <span class="kw">let </span>res = res.naive_utc();
     T::make_value(res)
 }
@@ -2546,25 +2584,8 @@ is larger than the binary representation of 100 days.
     /// * `days` - The number of days (+/-) represented in this interval
     /// * `millis` - The number of milliseconds (+/-) represented in this interval
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>make_value(
-        days: i32,
-        millis: i32,
-    ) -&gt; &lt;IntervalDayTimeType <span class="kw">as </span>ArrowPrimitiveType&gt;::Native {
-        <span class="comment">/*
-        https://github.com/apache/arrow/blob/02c8598d264c839a5b5cf3109bfd406f3b8a6ba5/cpp/src/arrow/type.h#L1433
-        struct DayMilliseconds {
-            int32_t days = 0;
-            int32_t milliseconds = 0;
-            ...
-        }
-        64      56      48      40      32      24      16      8       0
-        +-------+-------+-------+-------+-------+-------+-------+-------+
-        |             days              |         milliseconds          |
-        +-------+-------+-------+-------+-------+-------+-------+-------+
-        */
-        </span><span class="kw">let </span>m = millis <span class="kw">as </span>u64 &amp; u32::MAX <span class="kw">as </span>u64;
-        <span class="kw">let </span>d = (days <span class="kw">as </span>u64 &amp; u32::MAX <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>;
-        (m | d) <span class="kw">as </span>&lt;IntervalDayTimeType <span class="kw">as </span>ArrowPrimitiveType&gt;::Native
+    </span><span class="kw">pub fn </span>make_value(days: i32, milliseconds: i32) -&gt; IntervalDayTime {
+        IntervalDayTime { days, milliseconds }
     }
 
     <span class="doccomment">/// Turns a IntervalDayTimeType into a tuple of (days, milliseconds)
@@ -2573,10 +2594,8 @@ is larger than the binary representation of 100 days.
     ///
     /// * `i` - The IntervalDayTimeType to convert
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>to_parts(i: &lt;IntervalDayTimeType <span class="kw">as </span>ArrowPrimitiveType&gt;::Native) -&gt; (i32, i32) {
-        <span class="kw">let </span>days = (i &gt;&gt; <span class="number">32</span>) <span class="kw">as </span>i32;
-        <span class="kw">let </span>ms = i <span class="kw">as </span>i32;
-        (days, ms)
+    </span><span class="kw">pub fn </span>to_parts(i: IntervalDayTime) -&gt; (i32, i32) {
+        (i.days, i.milliseconds)
     }
 }
 
@@ -2589,27 +2608,12 @@ is larger than the binary representation of 100 days.
     /// * `days` - The number of days (+/-) represented in this interval
     /// * `nanos` - The number of nanoseconds (+/-) represented in this interval
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>make_value(
-        months: i32,
-        days: i32,
-        nanos: i64,
-    ) -&gt; &lt;IntervalMonthDayNanoType <span class="kw">as </span>ArrowPrimitiveType&gt;::Native {
-        <span class="comment">/*
-        https://github.com/apache/arrow/blob/02c8598d264c839a5b5cf3109bfd406f3b8a6ba5/cpp/src/arrow/type.h#L1475
-        struct MonthDayNanos {
-            int32_t months;
-            int32_t days;
-            int64_t nanoseconds;
+    </span><span class="kw">pub fn </span>make_value(months: i32, days: i32, nanoseconds: i64) -&gt; IntervalMonthDayNano {
+        IntervalMonthDayNano {
+            months,
+            days,
+            nanoseconds,
         }
-        128     112     96      80      64      48      32      16      0
-        +-------+-------+-------+-------+-------+-------+-------+-------+
-        |     months    |      days     |             nanos             |
-        +-------+-------+-------+-------+-------+-------+-------+-------+
-        */
-        </span><span class="kw">let </span>m = (months <span class="kw">as </span>u128 &amp; u32::MAX <span class="kw">as </span>u128) &lt;&lt; <span class="number">96</span>;
-        <span class="kw">let </span>d = (days <span class="kw">as </span>u128 &amp; u32::MAX <span class="kw">as </span>u128) &lt;&lt; <span class="number">64</span>;
-        <span class="kw">let </span>n = nanos <span class="kw">as </span>u128 &amp; u64::MAX <span class="kw">as </span>u128;
-        (m | d | n) <span class="kw">as </span>&lt;IntervalMonthDayNanoType <span class="kw">as </span>ArrowPrimitiveType&gt;::Native
     }
 
     <span class="doccomment">/// Turns a IntervalMonthDayNanoType into a tuple of (months, days, nanos)
@@ -2618,13 +2622,8 @@ is larger than the binary representation of 100 days.
     ///
     /// * `i` - The IntervalMonthDayNanoType to convert
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>to_parts(
-        i: &lt;IntervalMonthDayNanoType <span class="kw">as </span>ArrowPrimitiveType&gt;::Native,
-    ) -&gt; (i32, i32, i64) {
-        <span class="kw">let </span>months = (i &gt;&gt; <span class="number">96</span>) <span class="kw">as </span>i32;
-        <span class="kw">let </span>days = (i &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>i32;
-        <span class="kw">let </span>nanos = i <span class="kw">as </span>i64;
-        (months, days, nanos)
+    </span><span class="kw">pub fn </span>to_parts(i: IntervalMonthDayNano) -&gt; (i32, i32, i64) {
+        (i.months, i.days, i.nanoseconds)
     }
 }
 
@@ -2636,7 +2635,7 @@ is larger than the binary representation of 100 days.
     /// * `i` - The Date32Type to convert
     </span><span class="kw">pub fn </span>to_naive_date(i: &lt;Date32Type <span class="kw">as </span>ArrowPrimitiveType&gt;::Native) -&gt; NaiveDate {
         <span class="kw">let </span>epoch = NaiveDate::from_ymd_opt(<span class="number">1970</span>, <span class="number">1</span>, <span class="number">1</span>).unwrap();
-        epoch.add(Duration::days(i <span class="kw">as </span>i64))
+        epoch.add(Duration::try_days(i <span class="kw">as </span>i64).unwrap())
     }
 
     <span class="doccomment">/// Converts a chrono::NaiveDate into an arrow Date32Type
@@ -2677,8 +2676,8 @@ is larger than the binary representation of 100 days.
     ) -&gt; &lt;Date32Type <span class="kw">as </span>ArrowPrimitiveType&gt;::Native {
         <span class="kw">let </span>(days, ms) = IntervalDayTimeType::to_parts(delta);
         <span class="kw">let </span>res = Date32Type::to_naive_date(date);
-        <span class="kw">let </span>res = res.add(Duration::days(days <span class="kw">as </span>i64));
-        <span class="kw">let </span>res = res.add(Duration::milliseconds(ms <span class="kw">as </span>i64));
+        <span class="kw">let </span>res = res.add(Duration::try_days(days <span class="kw">as </span>i64).unwrap());
+        <span class="kw">let </span>res = res.add(Duration::try_milliseconds(ms <span class="kw">as </span>i64).unwrap());
         Date32Type::from_naive_date(res)
     }
 
@@ -2695,7 +2694,7 @@ is larger than the binary representation of 100 days.
         <span class="kw">let </span>(months, days, nanos) = IntervalMonthDayNanoType::to_parts(delta);
         <span class="kw">let </span>res = Date32Type::to_naive_date(date);
         <span class="kw">let </span>res = shift_months(res, months);
-        <span class="kw">let </span>res = res.add(Duration::days(days <span class="kw">as </span>i64));
+        <span class="kw">let </span>res = res.add(Duration::try_days(days <span class="kw">as </span>i64).unwrap());
         <span class="kw">let </span>res = res.add(Duration::nanoseconds(nanos));
         Date32Type::from_naive_date(res)
     }
@@ -2728,8 +2727,8 @@ is larger than the binary representation of 100 days.
     ) -&gt; &lt;Date32Type <span class="kw">as </span>ArrowPrimitiveType&gt;::Native {
         <span class="kw">let </span>(days, ms) = IntervalDayTimeType::to_parts(delta);
         <span class="kw">let </span>res = Date32Type::to_naive_date(date);
-        <span class="kw">let </span>res = res.sub(Duration::days(days <span class="kw">as </span>i64));
-        <span class="kw">let </span>res = res.sub(Duration::milliseconds(ms <span class="kw">as </span>i64));
+        <span class="kw">let </span>res = res.sub(Duration::try_days(days <span class="kw">as </span>i64).unwrap());
+        <span class="kw">let </span>res = res.sub(Duration::try_milliseconds(ms <span class="kw">as </span>i64).unwrap());
         Date32Type::from_naive_date(res)
     }
 
@@ -2746,7 +2745,7 @@ is larger than the binary representation of 100 days.
         <span class="kw">let </span>(months, days, nanos) = IntervalMonthDayNanoType::to_parts(delta);
         <span class="kw">let </span>res = Date32Type::to_naive_date(date);
         <span class="kw">let </span>res = shift_months(res, -months);
-        <span class="kw">let </span>res = res.sub(Duration::days(days <span class="kw">as </span>i64));
+        <span class="kw">let </span>res = res.sub(Duration::try_days(days <span class="kw">as </span>i64).unwrap());
         <span class="kw">let </span>res = res.sub(Duration::nanoseconds(nanos));
         Date32Type::from_naive_date(res)
     }
@@ -2760,7 +2759,7 @@ is larger than the binary representation of 100 days.
     /// * `i` - The Date64Type to convert
     </span><span class="kw">pub fn </span>to_naive_date(i: &lt;Date64Type <span class="kw">as </span>ArrowPrimitiveType&gt;::Native) -&gt; NaiveDate {
         <span class="kw">let </span>epoch = NaiveDate::from_ymd_opt(<span class="number">1970</span>, <span class="number">1</span>, <span class="number">1</span>).unwrap();
-        epoch.add(Duration::milliseconds(i))
+        epoch.add(Duration::try_milliseconds(i).unwrap())
     }
 
     <span class="doccomment">/// Converts a chrono::NaiveDate into an arrow Date64Type
@@ -2801,8 +2800,8 @@ is larger than the binary representation of 100 days.
     ) -&gt; &lt;Date64Type <span class="kw">as </span>ArrowPrimitiveType&gt;::Native {
         <span class="kw">let </span>(days, ms) = IntervalDayTimeType::to_parts(delta);
         <span class="kw">let </span>res = Date64Type::to_naive_date(date);
-        <span class="kw">let </span>res = res.add(Duration::days(days <span class="kw">as </span>i64));
-        <span class="kw">let </span>res = res.add(Duration::milliseconds(ms <span class="kw">as </span>i64));
+        <span class="kw">let </span>res = res.add(Duration::try_days(days <span class="kw">as </span>i64).unwrap());
+        <span class="kw">let </span>res = res.add(Duration::try_milliseconds(ms <span class="kw">as </span>i64).unwrap());
         Date64Type::from_naive_date(res)
     }
 
@@ -2819,7 +2818,7 @@ is larger than the binary representation of 100 days.
         <span class="kw">let </span>(months, days, nanos) = IntervalMonthDayNanoType::to_parts(delta);
         <span class="kw">let </span>res = Date64Type::to_naive_date(date);
         <span class="kw">let </span>res = shift_months(res, months);
-        <span class="kw">let </span>res = res.add(Duration::days(days <span class="kw">as </span>i64));
+        <span class="kw">let </span>res = res.add(Duration::try_days(days <span class="kw">as </span>i64).unwrap());
         <span class="kw">let </span>res = res.add(Duration::nanoseconds(nanos));
         Date64Type::from_naive_date(res)
     }
@@ -2852,8 +2851,8 @@ is larger than the binary representation of 100 days.
     ) -&gt; &lt;Date64Type <span class="kw">as </span>ArrowPrimitiveType&gt;::Native {
         <span class="kw">let </span>(days, ms) = IntervalDayTimeType::to_parts(delta);
         <span class="kw">let </span>res = Date64Type::to_naive_date(date);
-        <span class="kw">let </span>res = res.sub(Duration::days(days <span class="kw">as </span>i64));
-        <span class="kw">let </span>res = res.sub(Duration::milliseconds(ms <span class="kw">as </span>i64));
+        <span class="kw">let </span>res = res.sub(Duration::try_days(days <span class="kw">as </span>i64).unwrap());
+        <span class="kw">let </span>res = res.sub(Duration::try_milliseconds(ms <span class="kw">as </span>i64).unwrap());
         Date64Type::from_naive_date(res)
     }
 
@@ -2870,7 +2869,7 @@ is larger than the binary representation of 100 days.
         <span class="kw">let </span>(months, days, nanos) = IntervalMonthDayNanoType::to_parts(delta);
         <span class="kw">let </span>res = Date64Type::to_naive_date(date);
         <span class="kw">let </span>res = shift_months(res, -months);
-        <span class="kw">let </span>res = res.sub(Duration::days(days <span class="kw">as </span>i64));
+        <span class="kw">let </span>res = res.sub(Duration::try_days(days <span class="kw">as </span>i64).unwrap());
         <span class="kw">let </span>res = res.sub(Duration::nanoseconds(nanos));
         Date64Type::from_naive_date(res)
     }
@@ -3175,6 +3174,72 @@ is larger than the binary representation of 100 days.
 </span><span class="kw">pub type </span>BinaryType = GenericBinaryType&lt;i32&gt;;
 <span class="doccomment">/// An arrow binary array with i64 offsets
 </span><span class="kw">pub type </span>LargeBinaryType = GenericBinaryType&lt;i64&gt;;
+
+<span class="kw">mod </span>byte_view {
+    <span class="kw">use </span><span class="kw">crate</span>::types::{BinaryViewType, StringViewType};
+
+    <span class="kw">pub trait </span>Sealed: Send + Sync {}
+    <span class="kw">impl </span>Sealed <span class="kw">for </span>StringViewType {}
+    <span class="kw">impl </span>Sealed <span class="kw">for </span>BinaryViewType {}
+}
+
+<span class="doccomment">/// A trait over the variable length bytes view array types
+</span><span class="kw">pub trait </span>ByteViewType: byte_view::Sealed + <span class="lifetime">'static </span>+ PartialEq + Send + Sync {
+    <span class="doccomment">/// If element in array is utf8 encoded string.
+    </span><span class="kw">const </span>IS_UTF8: bool;
+
+    <span class="doccomment">/// Datatype of array elements
+    </span><span class="kw">const </span>DATA_TYPE: DataType = <span class="kw">if </span><span class="self">Self</span>::IS_UTF8 {
+        DataType::Utf8View
+    } <span class="kw">else </span>{
+        DataType::BinaryView
+    };
+
+    <span class="doccomment">/// "Binary" or "String", for use in displayed or error messages
+    </span><span class="kw">const </span>PREFIX: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str;
+
+    <span class="doccomment">/// Type for representing its equivalent rust type i.e
+    /// Utf8Array will have native type has &amp;str
+    /// BinaryArray will have type as [u8]
+    </span><span class="kw">type </span>Native: bytes::ByteArrayNativeType + AsRef&lt;<span class="self">Self</span>::Native&gt; + AsRef&lt;[u8]&gt; + <span class="question-mark">?</span>Sized;
+
+    <span class="doccomment">/// Type for owned corresponding to `Native`
+    </span><span class="kw">type </span>Owned: Debug + Clone + Sync + Send + AsRef&lt;<span class="self">Self</span>::Native&gt;;
+
+    <span class="doccomment">/// Verifies that the provided buffers are valid for this array type
+    </span><span class="kw">fn </span>validate(views: <span class="kw-2">&amp;</span>[u128], buffers: <span class="kw-2">&amp;</span>[Buffer]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ArrowError&gt;;
+}
+
+<span class="doccomment">/// [`ByteViewType`] for string arrays
+</span><span class="attr">#[derive(PartialEq)]
+</span><span class="kw">pub struct </span>StringViewType {}
+
+<span class="kw">impl </span>ByteViewType <span class="kw">for </span>StringViewType {
+    <span class="kw">const </span>IS_UTF8: bool = <span class="bool-val">true</span>;
+    <span class="kw">const </span>PREFIX: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"String"</span>;
+
+    <span class="kw">type </span>Native = str;
+    <span class="kw">type </span>Owned = String;
+
+    <span class="kw">fn </span>validate(views: <span class="kw-2">&amp;</span>[u128], buffers: <span class="kw-2">&amp;</span>[Buffer]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ArrowError&gt; {
+        validate_string_view(views, buffers)
+    }
+}
+
+<span class="doccomment">/// [`BinaryViewType`] for string arrays
+</span><span class="attr">#[derive(PartialEq)]
+</span><span class="kw">pub struct </span>BinaryViewType {}
+
+<span class="kw">impl </span>ByteViewType <span class="kw">for </span>BinaryViewType {
+    <span class="kw">const </span>IS_UTF8: bool = <span class="bool-val">false</span>;
+    <span class="kw">const </span>PREFIX: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"Binary"</span>;
+    <span class="kw">type </span>Native = [u8];
+    <span class="kw">type </span>Owned = Vec&lt;u8&gt;;
+
+    <span class="kw">fn </span>validate(views: <span class="kw-2">&amp;</span>[u128], buffers: <span class="kw-2">&amp;</span>[Buffer]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ArrowError&gt; {
+        validate_binary_view(views, buffers)
+    }
+}
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
